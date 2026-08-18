@@ -1,48 +1,85 @@
-# porto-frontend-vue
+// File: README.md
+// Short README describing generated files and next steps.
 
-This template should help get you started developing with Vue 3 in Vite.
+# Frontend scaffold (generated)
 
-## Recommended IDE Setup
+This folder contains typed Vue 3 + TypeScript frontend scaffolding:
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Pinia store at `src/stores/auth.ts`
+- Typed Axios instance at `src/services/axios.ts` with `setupInterceptors`
+- Services under `src/services/*` for auth, projects, blogs, experiences, messages
+- Centralized types in `src/types/index.ts`
+- Router with auth guard in `src/router/index.ts`
+- Generic `useFetch` composable at `src/composables/useFetch.ts`
+- Minimal components in `src/components/`
+- Layouts in `src/layouts/`
+- Pages in `src/pages/` (public and admin)
+- `src/main.ts` bootstraps the app and attaches interceptors
 
-## Recommended Browser Setup
+How to proceed:
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- Ensure `VITE_API_BASE_URL` is set in your `.env` or environment.
+- Run the dev server: `npm install && npm run dev`.
 
-## Type Support for `.vue` Imports in TS
+# Porto Frontend (Vue 3)
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+A portfolio frontend built with **Vite + Vue 3 + Tailwind CSS v4 + Pinia + Vue Router**.
 
-## Customize configuration
+## Quick Start
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
+# 1. Install dependencies
 npm install
-```
 
-### Compile and Hot-Reload for Development
+# 2. Set your backend API URL
+cp .env.example .env   # or edit .env directly
+# VITE_API_BASE_URL=http://localhost:8080
 
-```sh
+# 3. Start the dev server
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-```sh
-npm run build
+## Project Structure
+
+```
+src/
+├── assets/          # Global CSS (Tailwind entry)
+├── components/      # Reusable UI components (BaseButton, Card, Modal…)
+├── composables/     # Composition API hooks (useFetch)
+├── layouts/         # DefaultLayout (public) & AdminLayout (admin)
+├── pages/           # Route-level page components
+│   ├── admin/       # Admin pages (Login, Dashboard, CRUD…)
+│   ├── Home.vue
+│   ├── Projects.vue
+│   └── …
+├── router/          # Vue Router config + auth guard
+├── services/        # Axios instance + API call functions
+├── stores/          # Pinia stores (auth)
+└── main.ts          # App entry point
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Key Concepts for Beginners
 
-```sh
-npm run lint
-```
+| Concept             | What It Does                                              | Learn More                                                          |
+| ------------------- | --------------------------------------------------------- | ------------------------------------------------------------------- |
+| **Composition API** | `<script setup>` + `ref()` / `computed()` / `onMounted()` | [Vue Docs](https://vuejs.org/guide/extras/composition-api-faq.html) |
+| **Pinia**           | Global state management (replaces Vuex)                   | [Pinia Docs](https://pinia.vuejs.org/)                              |
+| **Vue Router**      | Client-side routing + navigation guards                   | [Router Docs](https://router.vuejs.org/)                            |
+| **Axios**           | HTTP client for API calls                                 | [Axios Docs](https://axios-http.com/)                               |
+| **Tailwind CSS**    | Utility-first CSS framework                               | [Tailwind Docs](https://tailwindcss.com/)                           |
+
+## Environment Variables
+
+| Variable            | Description                              | Example                 |
+| ------------------- | ---------------------------------------- | ----------------------- |
+| `VITE_API_BASE_URL` | Backend API base URL (no trailing slash) | `http://localhost:8080` |
+
+## Available Scripts
+
+- `npm run dev` — Start Vite dev server
+- `npm run build` — Type-check + production build
+- `npm run preview` — Preview the production build locally
+- `npm run lint` — Lint with ESLint + Oxlint
+- `npm run format` — Format with Prettier

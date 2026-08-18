@@ -1,14 +1,20 @@
-import './assets/main.css'
+// File: src/main.ts
+// App bootstrap: createApp, register Pinia, router, load styles, initialize interceptors.
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
-import App from './App.vue'
 import router from './router'
+import App from './App.vue'
+import './assets/main.css'
+import { setupInterceptors } from './services/axios'
 
 const app = createApp(App)
+const pinia = createPinia()
 
-app.use(createPinia())
+app.use(pinia)
 app.use(router)
+
+// Attach Axios interceptors now that Pinia and Router are registered.
+setupInterceptors(pinia, router)
 
 app.mount('#app')
