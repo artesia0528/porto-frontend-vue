@@ -4,6 +4,12 @@ import { ref } from 'vue'
 
 const isOpen = ref(false)
 
+const navLinks = [
+  { to: '/projects', label: 'Projects' },
+  { to: '/blogs', label: 'Blogs' },
+  { to: '/experiences', label: 'Experiences' },
+]
+
 function toggleMenu() {
   isOpen.value = !isOpen.value
 }
@@ -14,39 +20,42 @@ function closeMenu() {
 </script>
 
 <template>
-  <nav class="fixed inset-x-0 top-0 z-50 border-b border-neutral-200 bg-neutral-50">
-    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-      <RouterLink to="/" class="text-lg font-bold text-neutral-800" @click="closeMenu">
-        I Komang Krisna Aditya Kusuma
+  <nav
+    class="fixed inset-x-0 top-0 z-50 h-16 border-b border-neutral-200 bg-neutral-50/80 backdrop-blur-md"
+  >
+    <div class="mx-auto flex h-full max-w-6xl items-center justify-between px-4">
+      <!-- Logo mark (initials, no full name) -->
+      <RouterLink
+        to="/"
+        aria-label="Beranda"
+        class="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-700 text-sm font-bold text-white transition-transform hover:scale-105"
+        @click="closeMenu"
+      >
+        KA
       </RouterLink>
 
       <!-- Desktop menu -->
-      <div class="hidden md:flex items-center space-x-6">
+      <div class="hidden items-center gap-1 md:flex">
         <RouterLink
-          to="/projects"
-          class="text-sm text-neutral-500 hover:text-neutral-900 transition-colors"
-          >Projects</RouterLink
+          v-for="link in navLinks"
+          :key="link.to"
+          :to="link.to"
+          class="relative px-3 py-2 text-sm text-neutral-500 transition-colors after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:bg-sky-700 after:transition-transform after:content-[''] hover:text-neutral-900 [&.router-link-exact-active]:font-medium [&.router-link-exact-active]:text-neutral-900 [&.router-link-exact-active]:after:scale-x-100"
         >
-        <RouterLink
-          to="/blogs"
-          class="text-sm text-neutral-500 hover:text-neutral-900 transition-colors"
-          >Blogs</RouterLink
-        >
-        <RouterLink
-          to="/experiences"
-          class="text-sm text-neutral-500 hover:text-neutral-900 transition-colors"
-          >Experiences</RouterLink
-        >
+          {{ link.label }}
+        </RouterLink>
+
         <RouterLink
           to="/contact"
-          class="text-sm text-neutral-500 hover:text-neutral-900 transition-colors"
-          >Contact</RouterLink
+          class="ml-2 rounded-md border border-sky-700 px-4 py-1.5 text-sm font-medium text-sky-700 transition-colors hover:bg-sky-700 hover:text-white"
         >
+          Contact
+        </RouterLink>
       </div>
 
       <!-- Hamburger button (mobile only) -->
       <button
-        class="md:hidden inline-flex items-center justify-center p-2 rounded text-neutral-700 hover:bg-neutral-200 transition-colors"
+        class="inline-flex items-center justify-center rounded p-2 text-neutral-700 transition-colors hover:bg-neutral-200 md:hidden"
         @click="toggleMenu"
         :aria-expanded="isOpen"
         aria-label="Toggle navigation menu"
@@ -95,33 +104,21 @@ function closeMenu() {
     >
       <div
         v-if="isOpen"
-        class="md:hidden absolute left-0 right-0 top-full bg-neutral-50 border-b border-neutral-200 shadow-lg"
+        class="absolute inset-x-0 top-full border-b border-neutral-200 bg-neutral-50 shadow-lg md:hidden"
       >
         <div class="flex flex-col px-4 py-2">
           <RouterLink
-            to="/projects"
-            class="text-sm py-3 text-neutral-600 hover:text-neutral-900 border-b border-neutral-200 last:border-b-0"
+            v-for="link in navLinks"
+            :key="link.to"
+            :to="link.to"
+            class="border-b border-neutral-200 py-3 text-sm text-neutral-600 last:border-b-0 hover:text-neutral-900 [&.router-link-exact-active]:font-medium [&.router-link-exact-active]:text-sky-700"
             @click="closeMenu"
           >
-            Projects
-          </RouterLink>
-          <RouterLink
-            to="/blogs"
-            class="text-sm py-3 text-neutral-600 hover:text-neutral-900 border-b border-neutral-200 last:border-b-0"
-            @click="closeMenu"
-          >
-            Blogs
-          </RouterLink>
-          <RouterLink
-            to="/experiences"
-            class="text-sm py-3 text-neutral-600 hover:text-neutral-900 border-b border-neutral-200 last:border-b-0"
-            @click="closeMenu"
-          >
-            Experiences
+            {{ link.label }}
           </RouterLink>
           <RouterLink
             to="/contact"
-            class="text-sm py-3 text-neutral-600 hover:text-neutral-900 border-b border-neutral-200 last:border-b-0"
+            class="py-3 text-sm text-neutral-600 hover:text-neutral-900 [&.router-link-exact-active]:font-medium [&.router-link-exact-active]:text-sky-700"
             @click="closeMenu"
           >
             Contact
@@ -141,7 +138,7 @@ function closeMenu() {
   >
     <div
       v-if="isOpen"
-      class="fixed inset-0 top-14.25 z-40 md:hidden bg-black/40 backdrop-blur-sm"
+      class="fixed inset-0 top-16 z-40 bg-black/40 backdrop-blur-sm md:hidden"
       @click="closeMenu"
     ></div>
   </transition>
