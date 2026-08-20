@@ -14,7 +14,7 @@ function closeMenu() {
 </script>
 
 <template>
-  <nav class="relative bg-neutral-50 border-b border-neutral-200 z-50">
+  <nav class="fixed inset-x-0 top-0 z-50 border-b border-neutral-200 bg-neutral-50">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
       <RouterLink to="/" class="text-lg font-bold text-neutral-800" @click="closeMenu">
         I Komang Krisna Aditya Kusuma
