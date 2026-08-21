@@ -1,16 +1,21 @@
 <!-- src/pages/ProjectDetail.vue — Single project detail page. -->
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useFetch } from '@/composables/useFetch'
-import { getProject } from '@/services/projects'
+import { getProjects } from '@/services/projects'
 import type { Project } from '@/types'
 
 const route = useRoute()
 const router = useRouter()
-const projectId = route.params.id as string
+const projectId = String(route.params.id ?? '')
 
-const { data: project, loading, error, run } = useFetch<Project>(() => getProject(projectId))
+const { data: projects, loading, error, run } = useFetch<Project[]>(getProjects)
+
+const project = computed(() => {
+  if (!projects.value) return null
+  return projects.value.find((item) => String(item.id) === projectId) ?? null
+})
 
 onMounted(() => void run())
 </script>
@@ -26,25 +31,16 @@ onMounted(() => void run())
 
     <article v-if="project" class="space-y-4">
       <img
-        v-if="project.image"
-        :src="project.image"
+        v-if="project.image_url"
+        :src="project.image_url"
         :alt="project.title"
         class="h-64 w-full rounded object-cover"
       />
       <h1 class="text-3xl font-bold text-slate-900">{{ project.title }}</h1>
       <p v-if="project.description" class="text-slate-600">{{ project.description }}</p>
-      <p v-if="project.createdAt" class="text-sm text-slate-400">
-        Created: {{ new Date(project.createdAt).toLocaleDateString() }}
+      <p v-if="project.created_at || project.createdAt" class="text-sm text-slate-400">
+        Created: {{ new Date(project.created_at ?? project.createdAt ?? Date.now()).toLocaleDateString() }}
       </p>
-      <a
-        v-if="project.url"
-        :href="project.url"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-block rounded bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-700"
-      >
-        Visit Project &rarr;
-      </a>
     </article>
   </div>
 </template>

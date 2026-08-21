@@ -51,7 +51,9 @@ onMounted(() => void run())
           I Komang Krisna
           <span class="block text-sky-700">Aditya Kusuma</span>
         </h1>
-        <p class="mx-auto mt-5 max-w-lg text-base leading-relaxed text-neutral-500 sm:text-lg md:mx-0">
+        <p
+          class="mx-auto mt-5 max-w-lg text-base leading-relaxed text-neutral-500 sm:text-lg md:mx-0"
+        >
           Saya membangun aplikasi web modern, fungsional, dan mudah digunakan dengan fokus pada
           pengalaman pengguna yang baik.
         </p>
@@ -109,17 +111,24 @@ onMounted(() => void run())
       </div>
 
       <!-- Scroll cue -->
-      <div class="absolute bottom-8 left-1/2 hidden -translate-x-1/2 animate-bounce text-neutral-300 md:block">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <div
+        class="absolute bottom-8 left-1/2 hidden -translate-x-1/2 animate-bounce text-neutral-300 md:block"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <path d="M12 5v14M5 12l7 7 7-7" />
         </svg>
       </div>
     </section>
 
     <!-- About Section -->
-    <section
-      class="flex min-h-[85dvh] flex-col justify-center border-t border-neutral-200 py-20"
-    >
+    <section class="flex min-h-[85dvh] flex-col justify-center border-t border-neutral-200 py-20">
       <div class="h-1 w-16 rounded bg-sky-600"></div>
       <p class="mt-4 text-sm font-semibold tracking-widest text-neutral-400 uppercase">Profil</p>
       <h2 class="mt-2 text-2xl font-bold text-neutral-900 sm:text-3xl">Tentang Saya</h2>
@@ -159,9 +168,7 @@ onMounted(() => void run())
     </section>
 
     <!-- Tech Stack Section -->
-    <section
-      class="flex min-h-[75dvh] flex-col justify-center border-t border-neutral-200 py-20"
-    >
+    <section class="flex min-h-[75dvh] flex-col justify-center border-t border-neutral-200 py-20">
       <div class="h-1 w-16 rounded bg-sky-600"></div>
       <p class="mt-4 text-sm font-semibold tracking-widest text-neutral-400 uppercase">Keahlian</p>
       <h2 class="mt-2 text-2xl font-bold text-neutral-900 sm:text-3xl">Tech Stack</h2>
@@ -183,9 +190,7 @@ onMounted(() => void run())
     </section>
 
     <!-- Featured Projects Section -->
-    <section
-      class="flex min-h-[85dvh] flex-col justify-center border-t border-neutral-200 py-20"
-    >
+    <section class="flex min-h-[85dvh] flex-col justify-center border-t border-neutral-200 py-20">
       <div class="flex items-end justify-between">
         <div>
           <div class="h-1 w-16 rounded bg-sky-600"></div>
@@ -211,13 +216,17 @@ onMounted(() => void run())
         <div
           v-for="(project, idx) in projects"
           :key="project.id"
-          :class="idx === 0 ? 'scale-100 transform transition-transform hover:scale-105' : 'scale-100 transform transition-transform hover:scale-[1.02]'"
+          :class="
+            idx === 0
+              ? 'scale-100 transform transition-transform hover:scale-105'
+              : 'scale-100 transform transition-transform hover:scale-[1.02]'
+          "
         >
           <div :class="idx === 0 ? 'rounded ring-2 ring-sky-100' : ''">
             <Card
               :title="project.title"
               :description="project.description"
-              :image="project.image"
+              :image="project.image_url"
             />
           </div>
         </div>

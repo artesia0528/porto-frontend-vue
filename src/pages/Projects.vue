@@ -26,7 +26,11 @@ onMounted(() => void run())
         :to="`/projects/${project.id}`"
         class="block no-underline"
       >
-        <Card :title="project.title" :description="project.description" :image="project.image" />
+        <Card
+          :title="project.title"
+          :description="project.description"
+          :image="project.image_url"
+        />
       </RouterLink>
     </div>
   </div>

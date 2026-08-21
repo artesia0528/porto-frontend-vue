@@ -38,7 +38,7 @@ const activeColumns: Column[] =
       </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
-      <tr v-for="(row, idx) in items" :key="idx">
+      <tr v-for="(row, idx) in items" :key="String((row as Record<string, unknown>).id ?? idx)">
         <td
           v-for="(col, kidx) in activeColumns"
           :key="kidx"

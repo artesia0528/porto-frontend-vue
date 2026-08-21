@@ -18,8 +18,12 @@ export const api: AxiosInstance = axios.create({
   },
 })
 
-export function mapAxiosData<T>(res: AxiosResponse<T>): T {
-  return res.data
+export function mapAxiosData<T>(res: AxiosResponse<T | { data: T }>): T {
+  if (res && typeof res.data === 'object' && res.data !== null && 'data' in res.data) {
+    return (res.data as { data: T }).data
+  }
+
+  return res.data as T
 }
 
 /**
