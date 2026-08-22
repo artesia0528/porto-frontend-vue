@@ -17,17 +17,19 @@ onMounted(() => fetchBlogs())
 
 const columns: Column[] = [
   { key: 'title', label: 'Title' },
-  { key: 'excerpt', label: 'Excerpt' },
+  { key: 'content', label: 'Content' },
 ]
 
 const modalOpen = ref(false)
 const isEditing = ref(false)
 const editingId = ref('')
-const form = ref({ title: '', excerpt: '', content: '', image: '' })
+const imageFile = ref<File | null>(null)
+const form = ref({ title: '', content: '' })
 
 function openCreate() {
   isEditing.value = false
-  form.value = { title: '', excerpt: '', content: '', image: '' }
+  form.value = { title: '', content: '' }
+  imageFile.value = null
   modalOpen.value = true
 }
 
@@ -36,19 +38,29 @@ function openEdit(item: Record<string, unknown>) {
   editingId.value = String(item.id)
   form.value = {
     title: String(item.title ?? ''),
-    excerpt: String(item.excerpt ?? ''),
     content: String(item.content ?? ''),
-    image: String(item.image ?? ''),
   }
+  imageFile.value = null
   modalOpen.value = true
 }
 
 async function handleSave() {
   try {
     if (isEditing.value) {
-      await updateBlog(editingId.value, { ...form.value })
+      const payload: Record<string, unknown> = { ...form.value }
+      if (imageFile.value) {
+        payload.image = imageFile.value as File
+      }
+      await updateBlog(editingId.value, payload as any)
     } else {
-      await createBlog({ ...form.value })
+      if (!imageFile.value) {
+        alert('Image is required for new blog posts')
+        return
+      }
+      await createBlog({
+        ...form.value,
+        image: imageFile.value as File,
+      })
     }
     modalOpen.value = false
     fetchBlogs()
@@ -67,6 +79,11 @@ async function handleDelete(item: Record<string, unknown>) {
     }
   }
 }
+
+function handleImageChange(event: Event): void {
+  const target = event.target as HTMLInputElement
+  imageFile.value = target.files?.[0] ?? null
+}
 </script>
 
 <template>
@@ -76,7 +93,12 @@ async function handleDelete(item: Record<string, unknown>) {
       <BaseButton variant="primary" @click="openCreate">+ New Blog</BaseButton>
     </div>
 
-    <DataTable :columns="columns"       :items="(blogs as unknown as Record<string, unknown>[]) ?? []" @edit="openEdit" @delete="handleDelete" />
+    <DataTable
+      :columns="columns"
+      :items="(blogs as unknown as Record<string, unknown>[]) ?? []"
+      @edit="openEdit"
+      @delete="handleDelete"
+    />
 
     <Modal :open="modalOpen" @close="modalOpen = false">
       <h2 class="mb-4 text-lg font-bold text-slate-900">
@@ -84,9 +106,16 @@ async function handleDelete(item: Record<string, unknown>) {
       </h2>
       <form class="space-y-4" @submit.prevent="handleSave">
         <BaseInput v-model="form.title" label="Title" />
-        <BaseInput v-model="form.excerpt" label="Excerpt" />
-        <BaseInput v-model="form.content" label="Content" />
-        <BaseInput v-model="form.image" label="Image URL" />
+        <BaseInput v-model="form.content" label="Content" type="textarea" />
+        <div>
+          <label class="block text-sm font-medium mb-1">Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            @change="handleImageChange"
+            class="w-full px-3 py-2 border border-gray-300 rounded"
+          />
+        </div>
         <div class="flex justify-end gap-2">
           <BaseButton variant="secondary" @click="modalOpen = false">Cancel</BaseButton>
           <BaseButton type="submit" variant="primary">Save</BaseButton>

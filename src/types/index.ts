@@ -23,22 +23,60 @@ export interface Project {
   createdAt?: string
 }
 
+// ── Blog ─────────────────────────────────────────────────────────────────
 export interface Blog {
   id: string
   title: string
-  excerpt?: string
-  content?: string
-  image?: string
-  createdAt?: string
+  content: string
+  image_url: string
+  created_at: string
+  updated_at: string
 }
 
+export interface CreateBlogRequest extends Record<string, unknown> {
+  title: string
+  content: string
+  image: File
+}
+
+export interface UpdateBlogRequest extends Record<string, unknown> {
+  title?: string
+  content?: string
+  image?: File
+}
+
+// ── Experience ───────────────────────────────────────────────────────────
 export interface Experience {
   id: string
   company: string
-  role: string
-  startDate?: string
-  endDate?: string
+  position: string
+  start_date: string
+  end_date?: string
+  is_current: boolean
   description?: string
+  logo_url: string
+  created_at: string
+  updated_at: string
+}
+
+export interface CreateExperienceRequest extends Record<string, unknown> {
+  company: string
+  position: string
+  start_date: string
+  end_date?: string
+  is_current?: boolean
+  description?: string
+  logo: File
+}
+
+export interface UpdateExperienceRequest extends Record<string, unknown> {
+  company?: string
+  position?: string
+  start_date?: string
+  end_date?: string
+  is_current?: boolean
+  description?: string
+  logo?: File
 }
 
 export interface Message {

@@ -18,12 +18,36 @@ export const api: AxiosInstance = axios.create({
   },
 })
 
-export function mapAxiosData<T>(res: AxiosResponse<T | { data: T }>): T {
+export function mapAxiosData<T>(
+  res: AxiosResponse<{ success?: boolean; message?: string; data: T } | { data: T } | T>,
+): T {
+  // Handle response with { success, message, data } wrapper
   if (res && typeof res.data === 'object' && res.data !== null && 'data' in res.data) {
     return (res.data as { data: T }).data
   }
 
   return res.data as T
+}
+
+/**
+ * Create FormData from object, handling File objects and nested structures
+ */
+export function createFormData<T extends Record<string, unknown>>(data: T): FormData {
+  const formData = new FormData()
+
+  Object.entries(data).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      if (value instanceof File) {
+        formData.append(key, value)
+      } else if (typeof value === 'boolean' || typeof value === 'number') {
+        formData.append(key, String(value))
+      } else if (typeof value === 'string') {
+        formData.append(key, value)
+      }
+    }
+  })
+
+  return formData
 }
 
 /**

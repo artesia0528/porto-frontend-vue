@@ -7,7 +7,7 @@
     <div v-if="error" class="text-red-600">{{ error }}</div>
     <ul class="space-y-3">
       <li v-for="e in experiences" :key="e.id" class="border rounded p-3">
-        <strong>{{ e.role }}</strong> — {{ e.company }}
+        <strong>{{ e.position }}</strong> — {{ e.company }}
         <p class="text-sm text-gray-600">{{ e.description }}</p>
       </li>
     </ul>

@@ -22,19 +22,35 @@ onMounted(() => fetchExperiences())
 
 const columns: Column[] = [
   { key: 'company', label: 'Company' },
-  { key: 'role', label: 'Role' },
-  { key: 'startDate', label: 'Start' },
-  { key: 'endDate', label: 'End' },
+  { key: 'position', label: 'Position' },
+  { key: 'start_date', label: 'Start' },
+  { key: 'end_date', label: 'End' },
 ]
 
 const modalOpen = ref(false)
 const isEditing = ref(false)
 const editingId = ref('')
-const form = ref({ company: '', role: '', startDate: '', endDate: '', description: '' })
+const logoFile = ref<File | null>(null)
+const form = ref({
+  company: '',
+  position: '',
+  start_date: '',
+  end_date: '',
+  is_current: false,
+  description: '',
+})
 
 function openCreate() {
   isEditing.value = false
-  form.value = { company: '', role: '', startDate: '', endDate: '', description: '' }
+  form.value = {
+    company: '',
+    position: '',
+    start_date: '',
+    end_date: '',
+    is_current: false,
+    description: '',
+  }
+  logoFile.value = null
   modalOpen.value = true
 }
 
@@ -43,20 +59,33 @@ function openEdit(item: Record<string, unknown>) {
   editingId.value = String(item.id)
   form.value = {
     company: String(item.company ?? ''),
-    role: String(item.role ?? ''),
-    startDate: String(item.startDate ?? ''),
-    endDate: String(item.endDate ?? ''),
+    position: String(item.position ?? ''),
+    start_date: String(item.start_date ?? ''),
+    end_date: String(item.end_date ?? ''),
+    is_current: Boolean(item.is_current ?? false),
     description: String(item.description ?? ''),
   }
+  logoFile.value = null
   modalOpen.value = true
 }
 
 async function handleSave() {
   try {
     if (isEditing.value) {
-      await updateExperience(editingId.value, { ...form.value })
+      const payload: Record<string, unknown> = { ...form.value }
+      if (logoFile.value) {
+        payload.logo = logoFile.value as File
+      }
+      await updateExperience(editingId.value, payload as any)
     } else {
-      await createExperience({ ...form.value })
+      if (!logoFile.value) {
+        alert('Logo is required for new experiences')
+        return
+      }
+      await createExperience({
+        ...form.value,
+        logo: logoFile.value as File,
+      } as any)
     }
     modalOpen.value = false
     fetchExperiences()
@@ -74,6 +103,11 @@ async function handleDelete(item: Record<string, unknown>) {
       // error handled by useFetch interceptor
     }
   }
+}
+
+function handleLogoChange(event: Event): void {
+  const target = event.target as HTMLInputElement
+  logoFile.value = target.files?.[0] ?? null
 }
 </script>
 
@@ -97,10 +131,25 @@ async function handleDelete(item: Record<string, unknown>) {
       </h2>
       <form class="space-y-4" @submit.prevent="handleSave">
         <BaseInput v-model="form.company" label="Company" />
-        <BaseInput v-model="form.role" label="Role" />
-        <BaseInput v-model="form.startDate" label="Start Date" />
-        <BaseInput v-model="form.endDate" label="End Date" />
-        <BaseInput v-model="form.description" label="Description" />
+        <BaseInput v-model="form.position" label="Position" />
+        <BaseInput v-model="form.start_date" label="Start Date (YYYY-MM)" placeholder="2024-01" />
+        <BaseInput v-model="form.end_date" label="End Date (YYYY-MM)" placeholder="2024-06" />
+        <div>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" v-model="form.is_current" class="w-4 h-4" />
+            <span class="text-sm font-medium">Currently working here</span>
+          </label>
+        </div>
+        <BaseInput v-model="form.description" label="Description" type="textarea" />
+        <div>
+          <label class="block text-sm font-medium mb-1">Logo</label>
+          <input
+            type="file"
+            accept="image/*"
+            @change="handleLogoChange"
+            class="w-full px-3 py-2 border border-gray-300 rounded"
+          />
+        </div>
         <div class="flex justify-end gap-2">
           <BaseButton variant="secondary" @click="modalOpen = false">Cancel</BaseButton>
           <BaseButton type="submit" variant="primary">Save</BaseButton>

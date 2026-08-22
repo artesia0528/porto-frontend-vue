@@ -1,8 +1,12 @@
 <!-- src/components/Navbar.vue — Top navigation with admin actions. -->
 <script setup lang="ts">
 import { ref } from 'vue'
+import { motion } from 'motion-v'
+import { springTransitionSoft } from '@/motion/variants'
+import { useReducedMotion } from '@/composables/useReducedMotion'
 
 const isOpen = ref(false)
+const prefersReduced = useReducedMotion()
 
 const navLinks = [
   { to: '/projects', label: 'Projects' },
@@ -20,8 +24,17 @@ function closeMenu() {
 </script>
 
 <template>
-  <nav
+  <!--
+    Drop-in animation once per mount. If Navbar lives outside <RouterView>
+    (e.g. in App.vue) it mounts once and this plays once, as intended.
+    If it ever gets re-mounted per-route, this would replay on every
+    navigation — worth confirming Navbar isn't inside the routed view.
+  -->
+  <motion.nav
     class="fixed inset-x-0 top-0 z-50 h-16 border-b border-neutral-200 bg-neutral-50/80 backdrop-blur-md"
+    :initial="prefersReduced ? false : { y: -100 }"
+    :animate="{ y: 0 }"
+    :transition="springTransitionSoft"
   >
     <div class="mx-auto flex h-full max-w-6xl items-center justify-between px-4">
       <!-- Logo mark (initials, no full name) -->
@@ -126,7 +139,7 @@ function closeMenu() {
         </div>
       </div>
     </transition>
-  </nav>
+  </motion.nav>
 
   <transition
     enter-active-class="transition ease-out duration-200"

@@ -2,6 +2,7 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 import { Mail, ArrowUp } from '@lucide/vue'
+import { motion } from 'motion-v'
 
 const year = new Date().getFullYear()
 
@@ -11,7 +12,13 @@ function scrollToTop() {
 </script>
 
 <template>
-  <footer class="mt-8 border-t border-neutral-200 bg-neutral-50">
+  <motion.footer 
+    class="mt-8 border-t border-neutral-200 bg-neutral-50"
+    :initial="{ opacity: 0, y: 50 }"
+    :whileInView="{ opacity: 1, y: 0 }"
+    :viewport="{ once: true }"
+    :transition="{ duration: 0.5, ease: 'easeOut' }"
+  >
     <div class="mx-auto max-w-6xl px-4 py-16">
       <!-- Main footer content -->
       <div class="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
@@ -165,7 +172,7 @@ function scrollToTop() {
         </div>
       </div>
     </div>
-  </footer>
+  </motion.footer>
 </template>
 
 <style scoped></style>

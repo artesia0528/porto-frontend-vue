@@ -78,7 +78,7 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach((to, _from) => {
   const auth = useAuthStore()
   // Redirect away from login if already authenticated
   if (to.name === 'AdminLogin' && auth.token) {
