@@ -28,9 +28,10 @@ export interface Blog {
   id: string
   title: string
   content: string
-  image_url: string
-  created_at: string
-  updated_at: string
+  excerpt?: string
+  image_url?: string
+  created_at?: string
+  updated_at?: string
 }
 
 export interface CreateBlogRequest extends Record<string, unknown> {
@@ -54,9 +55,9 @@ export interface Experience {
   end_date?: string
   is_current: boolean
   description?: string
-  logo_url: string
-  created_at: string
-  updated_at: string
+  logo_url?: string
+  created_at?: string
+  updated_at?: string
 }
 
 export interface CreateExperienceRequest extends Record<string, unknown> {

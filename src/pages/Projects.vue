@@ -28,7 +28,7 @@ onMounted(() => void run())
 </script>
 
 <template>
-  <div class="mx-auto max-w-6xl px-4 pt-28 pb-20">
+  <div class="mx-auto max-w-6xl pt-28 pb-20">
     <!-- Header -->
     <motion.div v-bind="fadeUpSection">
       <div class="h-1 w-16 rounded bg-sky-600"></div>
@@ -70,7 +70,7 @@ onMounted(() => void run())
         :key="n"
         class="animate-pulse overflow-hidden rounded-2xl border border-neutral-200 bg-white"
       >
-        <div class="aspect-[16/10] w-full bg-neutral-100"></div>
+        <div class="aspect-16/10 w-full bg-neutral-100"></div>
         <div class="space-y-2 p-5">
           <div class="h-4 w-3/4 rounded bg-neutral-100"></div>
           <div class="h-3 w-full rounded bg-neutral-100"></div>

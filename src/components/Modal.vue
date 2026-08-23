@@ -1,21 +1,39 @@
 // File: src/components/Modal.vue // Minimal modal with slot content and `open` prop and close
 event.
 
-<template>
-  <div v-if="open" class="fixed inset-0 flex items-center justify-center z-50">
-    <div class="fixed inset-0 bg-black opacity-40" @click="$emit('close')"></div>
-    <div class="bg-white rounded p-6 z-10 max-w-lg w-full">
-      <button class="ml-auto mb-2" @click="$emit('close')">Close</button>
-      <slot />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-// File: src/components/Modal.vue - Modal wrapper
-const props = defineProps<{
+import { X } from '@lucide/vue'
+
+defineProps<{
   open: boolean
+}>()
+
+defineEmits<{
+  (e: 'close'): void
 }>()
 </script>
 
-<style scoped></style>
+<template>
+  <div v-if="open" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div class="fixed inset-0 bg-slate-950/50 backdrop-blur-sm" @click="$emit('close')"></div>
+    <div
+      class="relative z-10 w-full max-w-2xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl"
+    >
+      <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Form</p>
+        </div>
+        <button
+          type="button"
+          class="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+          @click="$emit('close')"
+        >
+          <X :size="18" />
+        </button>
+      </div>
+      <div class="max-h-[80vh] overflow-y-auto p-6">
+        <slot />
+      </div>
+    </div>
+  </div>
+</template>

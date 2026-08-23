@@ -19,6 +19,11 @@ const routes: Array<RouteRecordRaw> = [
       { path: 'contact', name: 'Contact', component: () => import('../pages/Contact.vue') },
       { path: 'blogs', name: 'Blogs', component: () => import('../pages/Blogs.vue') },
       {
+        path: 'blogs/:id',
+        name: 'BlogDetail',
+        component: () => import('../pages/BlogDetail.vue'),
+      },
+      {
         path: 'experiences',
         name: 'Experiences',
         component: () => import('../pages/Experiences.vue'),
@@ -76,6 +81,13 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    }
+
+    return { top: 0, left: 0 }
+  },
 })
 
 router.beforeEach((to, _from) => {
