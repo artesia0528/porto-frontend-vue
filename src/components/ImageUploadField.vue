@@ -105,7 +105,7 @@ function clearImage(): void {
           type="file"
           :accept="accept"
           class="hidden"
-          :required="required"
+          :aria-invalid="!!error"
           @change="onChange"
         />
       </label>

@@ -12,7 +12,7 @@ export const sendMessage = (
       name: data.name,
       email: data.email,
       subject: data.subject,
-      message: data.body,
+      content: data.body,
     })
     .then(() => undefined)
 
@@ -23,7 +23,7 @@ export const getMessages = (): Promise<Message[]> =>
 
 /** PATCH /api/admin/messages/:id — Mark a message as read. */
 export const markMessageAsRead = (id: string): Promise<Message> =>
-  api.patch<Message>(`/api/admin/messages/${id}`, { is_read: true }).then(mapAxiosData)
+  api.patch<Message>(`/api/admin/messages/${id}/read`, { is_read: true }).then(mapAxiosData)
 
 /** DELETE /api/admin/messages/:id — Delete a message. */
 export const deleteMessage = (id: string): Promise<void> =>

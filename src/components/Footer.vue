@@ -28,7 +28,7 @@ function scrollToTop() {
             <span
               class="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-700 text-sm font-bold text-white"
             >
-              KK
+              KA
             </span>
             <h3 class="text-base font-bold text-neutral-800">I Komang Krisna Aditya Kusuma</h3>
           </div>

@@ -7,6 +7,8 @@ import DataTable from '@/components/DataTable.vue'
 import type { Column } from '@/components/DataTable.vue'
 import Modal from '@/components/Modal.vue'
 import BaseButton from '@/components/BaseButton.vue'
+import FormInput from '@/components/FormInput.vue'
+import FormTextarea from '@/components/FormTextarea.vue'
 import ImageUploadField from '@/components/ImageUploadField.vue'
 import type { Project } from '@/types'
 
@@ -21,8 +23,10 @@ const columns: Column[] = [
 ]
 
 const modalOpen = ref(false)
+const deleteModalOpen = ref(false)
 const isEditing = ref(false)
 const editingId = ref('')
+const selectedProject = ref<Record<string, unknown> | null>(null)
 const form = ref({ title: '', description: '', image_url: '' })
 const imageFile = ref<File | null>(null)
 const formErrors = ref({ title: '', description: '', image: '' })
@@ -110,14 +114,21 @@ async function handleSave() {
   }
 }
 
-async function handleDelete(item: Record<string, unknown>) {
-  if (confirm('Delete this project?')) {
-    try {
-      await deleteProject(String(item.id))
-      fetchProjects()
-    } catch {
-      // error handled by useFetch interceptor
-    }
+function openDeleteConfirm(item: Record<string, unknown>) {
+  selectedProject.value = item
+  deleteModalOpen.value = true
+}
+
+async function confirmDelete() {
+  if (!selectedProject.value) return
+
+  try {
+    await deleteProject(String(selectedProject.value.id))
+    deleteModalOpen.value = false
+    selectedProject.value = null
+    fetchProjects()
+  } catch {
+    // error handled by useFetch interceptor
   }
 }
 </script>
@@ -133,8 +144,29 @@ async function handleDelete(item: Record<string, unknown>) {
       :columns="columns"
       :items="(projects as unknown as Record<string, unknown>[]) ?? []"
       @edit="openEdit"
-      @delete="handleDelete"
+      @delete="openDeleteConfirm"
     />
+
+    <Modal :open="deleteModalOpen" @close="deleteModalOpen = false">
+      <div class="space-y-5">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-red-500">Confirm</p>
+          <h2 class="mt-2 text-2xl font-bold text-slate-900">Delete this project?</h2>
+        </div>
+
+        <div v-if="selectedProject" class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+          <p class="text-sm font-semibold text-slate-800">{{ selectedProject.title }}</p>
+          <p class="mt-2 text-sm text-slate-600">
+            This action cannot be undone. The project will be permanently removed.
+          </p>
+        </div>
+
+        <div class="flex justify-end gap-3 border-t border-slate-200 pt-4">
+          <BaseButton variant="secondary" @click="deleteModalOpen = false">Cancel</BaseButton>
+          <BaseButton variant="danger" @click="confirmDelete">Delete</BaseButton>
+        </div>
+      </div>
+    </Modal>
 
     <Modal :open="modalOpen" @close="modalOpen = false">
       <div class="space-y-6">
@@ -146,37 +178,22 @@ async function handleDelete(item: Record<string, unknown>) {
         </div>
 
         <form class="space-y-5" @submit.prevent="handleSave">
-          <label class="block">
-            <div class="mb-2 flex items-center justify-between gap-3">
-              <span class="text-sm font-medium text-slate-700">Title</span>
-              <span class="text-xs font-medium text-red-500">Wajib</span>
-            </div>
-            <input
-              v-model="form.title"
-              type="text"
-              class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100 focus:outline-none"
-              :class="formErrors.title ? 'border-red-300 bg-red-50' : ''"
-              placeholder="Contoh: Portfolio Dashboard"
-            />
-            <p v-if="formErrors.title" class="mt-1 text-xs text-red-600">{{ formErrors.title }}</p>
-          </label>
+          <FormInput
+            v-model="form.title"
+            label="Title"
+            :required="true"
+            :error="formErrors.title"
+            placeholder="Contoh: Portfolio Dashboard"
+          />
 
-          <label class="block">
-            <div class="mb-2 flex items-center justify-between gap-3">
-              <span class="text-sm font-medium text-slate-700">Description</span>
-              <span class="text-xs font-medium text-red-500">Wajib</span>
-            </div>
-            <textarea
-              v-model="form.description"
-              rows="5"
-              class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100 focus:outline-none"
-              :class="formErrors.description ? 'border-red-300 bg-red-50' : ''"
-              placeholder="Ceritakan project, fitur, dan hasilnya..."
-            />
-            <p v-if="formErrors.description" class="mt-1 text-xs text-red-600">
-              {{ formErrors.description }}
-            </p>
-          </label>
+          <FormTextarea
+            v-model="form.description"
+            label="Description"
+            :required="true"
+            :error="formErrors.description"
+            :rows="5"
+            placeholder="Ceritakan project, fitur, dan hasilnya..."
+          />
 
           <ImageUploadField
             v-model="imageFile"

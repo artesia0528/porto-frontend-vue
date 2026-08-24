@@ -85,8 +85,10 @@ export interface Message {
   name: string
   email: string
   subject?: string
-  body: string
-  read: boolean
+  body?: string
+  content?: string
+  read?: boolean
+  is_read?: boolean
   createdAt?: string
 }
 

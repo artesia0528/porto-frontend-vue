@@ -3,7 +3,8 @@
 import { ref } from 'vue'
 import { motion } from 'motion-v'
 import { ArrowRight, Clock3, Mail, MapPin, Phone, Send } from '@lucide/vue'
-import BaseInput from '@/components/BaseInput.vue'
+import FormInput from '@/components/FormInput.vue'
+import FormTextarea from '@/components/FormTextarea.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import { sendMessage } from '@/services/messages'
 import type { Message } from '@/types'
@@ -91,27 +92,11 @@ async function onSubmit(): Promise<void> {
             diskusi ide dan teknologi.
           </p>
         </div>
-
-        <div
-          class="rounded-2xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm text-sky-700 shadow-sm"
-        >
-          Available for freelance & collaboration
-        </div>
       </div>
     </motion.div>
 
     <div class="mt-10 grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
       <motion.aside class="space-y-5" v-bind="staggerContainer(0.08)">
-        <motion.div
-          v-bind="staggerItem"
-          class="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm"
-        >
-          <p class="text-sm font-semibold tracking-widest text-neutral-400 uppercase">
-            Contact info
-          </p>
-          <h2 class="mt-3 text-2xl font-bold text-neutral-900">Let’s build something useful.</h2>
-        </motion.div>
-
         <div class="space-y-4">
           <motion.a
             v-for="item in contactCards"
@@ -135,23 +120,6 @@ async function onSubmit(): Promise<void> {
             </div>
           </motion.a>
         </div>
-
-        <motion.div
-          v-bind="staggerItem"
-          class="rounded-2xl border border-neutral-200 bg-linear-to-br from-neutral-900 to-slate-800 p-5 text-white shadow-sm"
-        >
-          <div class="flex items-center gap-3">
-            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10">
-              <Clock3 :size="18" />
-            </div>
-            <div>
-              <p class="text-xs font-medium uppercase tracking-[0.12em] text-slate-300">
-                Response time
-              </p>
-              <p class="mt-1 text-sm font-semibold text-white">Biasanya balas dalam 24 jam</p>
-            </div>
-          </div>
-        </motion.div>
       </motion.aside>
 
       <motion.form
@@ -167,23 +135,22 @@ async function onSubmit(): Promise<void> {
         </div>
 
         <div class="grid gap-5 sm:grid-cols-2">
-          <BaseInput v-model="name" label="Name" />
-          <BaseInput v-model="email" label="Email" type="email" />
+          <FormInput v-model="name" label="Name" placeholder="Your name" />
+          <FormInput v-model="email" label="Email" type="email" placeholder="you@example.com" />
         </div>
 
         <div class="mt-5">
-          <BaseInput v-model="subject" label="Subject" />
+          <FormInput v-model="subject" label="Subject" placeholder="Project inquiry" />
         </div>
 
-        <label class="mt-5 block">
-          <span class="text-sm font-medium">Message</span>
-          <textarea
+        <div class="mt-5">
+          <FormTextarea
             v-model="body"
-            rows="6"
-            class="mt-1 block w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-3 text-sm text-neutral-700 placeholder:text-neutral-400 focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100 focus:outline-none"
+            label="Message"
+            :rows="6"
             placeholder="Tulis detail project, kebutuhan, atau ide yang ingin dibahas..."
           />
-        </label>
+        </div>
 
         <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div class="flex items-center gap-2">

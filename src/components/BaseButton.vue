@@ -6,7 +6,7 @@ const props = withDefaults(
   defineProps<{
     loading?: boolean
     type?: 'button' | 'submit' | 'reset'
-    variant?: 'primary' | 'secondary'
+    variant?: 'primary' | 'secondary' | 'danger'
   }>(),
   {
     loading: false,
@@ -19,11 +19,17 @@ defineEmits<{
   (e: 'click'): void
 }>()
 
-const computedClass = computed(() =>
-  props.variant === 'primary'
-    ? 'bg-blue-600 text-white hover:bg-blue-700'
-    : 'bg-gray-100 text-gray-900 hover:bg-gray-200',
-)
+const computedClass = computed(() => {
+  if (props.variant === 'primary') {
+    return 'bg-blue-600 text-white hover:bg-blue-700'
+  }
+
+  if (props.variant === 'danger') {
+    return 'bg-red-600 text-white hover:bg-red-700'
+  }
+
+  return 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+})
 </script>
 
 <template>

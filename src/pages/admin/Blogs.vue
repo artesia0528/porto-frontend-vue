@@ -7,6 +7,8 @@ import DataTable from '@/components/DataTable.vue'
 import type { Column } from '@/components/DataTable.vue'
 import Modal from '@/components/Modal.vue'
 import BaseButton from '@/components/BaseButton.vue'
+import FormInput from '@/components/FormInput.vue'
+import FormTextarea from '@/components/FormTextarea.vue'
 import ImageUploadField from '@/components/ImageUploadField.vue'
 import type { Blog, CreateBlogRequest, UpdateBlogRequest } from '@/types'
 
@@ -21,8 +23,10 @@ const columns: Column[] = [
 ]
 
 const modalOpen = ref(false)
+const deleteModalOpen = ref(false)
 const isEditing = ref(false)
 const editingId = ref('')
+const selectedBlog = ref<Record<string, unknown> | null>(null)
 const imageFile = ref<File | null>(null)
 const form = ref({ title: '', content: '', image_url: '' })
 const formErrors = ref({ title: '', content: '', image: '' })
@@ -121,14 +125,21 @@ async function handleSave() {
   }
 }
 
-async function handleDelete(item: Record<string, unknown>) {
-  if (confirm('Delete this blog post?')) {
-    try {
-      await deleteBlog(String(item.id))
-      fetchBlogs()
-    } catch {
-      // error handled by useFetch interceptor
-    }
+function openDeleteConfirm(item: Record<string, unknown>) {
+  selectedBlog.value = item
+  deleteModalOpen.value = true
+}
+
+async function confirmDelete() {
+  if (!selectedBlog.value) return
+
+  try {
+    await deleteBlog(String(selectedBlog.value.id))
+    deleteModalOpen.value = false
+    selectedBlog.value = null
+    fetchBlogs()
+  } catch {
+    // error handled by useFetch interceptor
   }
 }
 </script>
@@ -144,8 +155,29 @@ async function handleDelete(item: Record<string, unknown>) {
       :columns="columns"
       :items="(blogs as unknown as Record<string, unknown>[]) ?? []"
       @edit="openEdit"
-      @delete="handleDelete"
+      @delete="openDeleteConfirm"
     />
+
+    <Modal :open="deleteModalOpen" @close="deleteModalOpen = false">
+      <div class="space-y-5">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-red-500">Confirm</p>
+          <h2 class="mt-2 text-2xl font-bold text-slate-900">Delete this blog post?</h2>
+        </div>
+
+        <div v-if="selectedBlog" class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+          <p class="text-sm font-semibold text-slate-800">{{ selectedBlog.title }}</p>
+          <p class="mt-2 text-sm text-slate-600">
+            This action cannot be undone. The blog post will be permanently removed.
+          </p>
+        </div>
+
+        <div class="flex justify-end gap-3 border-t border-slate-200 pt-4">
+          <BaseButton variant="secondary" @click="deleteModalOpen = false">Cancel</BaseButton>
+          <BaseButton variant="danger" @click="confirmDelete">Delete</BaseButton>
+        </div>
+      </div>
+    </Modal>
 
     <Modal :open="modalOpen" @close="modalOpen = false">
       <div class="space-y-6">
@@ -157,37 +189,22 @@ async function handleDelete(item: Record<string, unknown>) {
         </div>
 
         <form class="space-y-5" @submit.prevent="handleSave">
-          <label class="block">
-            <div class="mb-2 flex items-center justify-between gap-3">
-              <span class="text-sm font-medium text-slate-700">Title</span>
-              <span class="text-xs font-medium text-red-500">Wajib</span>
-            </div>
-            <input
-              v-model="form.title"
-              type="text"
-              class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100 focus:outline-none"
-              :class="formErrors.title ? 'border-red-300 bg-red-50' : ''"
-              placeholder="Contoh: Membuat portfolio modern dengan Vue"
-            />
-            <p v-if="formErrors.title" class="mt-1 text-xs text-red-600">{{ formErrors.title }}</p>
-          </label>
+          <FormInput
+            v-model="form.title"
+            label="Title"
+            :required="true"
+            :error="formErrors.title"
+            placeholder="Contoh: Membuat portfolio modern dengan Vue"
+          />
 
-          <label class="block">
-            <div class="mb-2 flex items-center justify-between gap-3">
-              <span class="text-sm font-medium text-slate-700">Content</span>
-              <span class="text-xs font-medium text-red-500">Wajib</span>
-            </div>
-            <textarea
-              v-model="form.content"
-              rows="6"
-              class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100 focus:outline-none"
-              :class="formErrors.content ? 'border-red-300 bg-red-50' : ''"
-              placeholder="Tulis isi artikel..."
-            />
-            <p v-if="formErrors.content" class="mt-1 text-xs text-red-600">
-              {{ formErrors.content }}
-            </p>
-          </label>
+          <FormTextarea
+            v-model="form.content"
+            label="Content"
+            :required="true"
+            :error="formErrors.content"
+            :rows="6"
+            placeholder="Tulis isi artikel..."
+          />
 
           <ImageUploadField
             v-model="imageFile"

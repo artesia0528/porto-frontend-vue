@@ -26,7 +26,7 @@ withDefaults(
     v-bind="hoverLiftY"
   >
     <!-- Media -->
-    <div class="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-neutral-100">
+    <div class="relative aspect-16/10 w-full shrink-0 overflow-hidden bg-neutral-100">
       <img
         v-if="image"
         :src="image"
@@ -36,7 +36,7 @@ withDefaults(
       <!-- Fallback when no image: initial-based placeholder, not a blank box -->
       <div
         v-else
-        class="flex h-full w-full items-center justify-center bg-gradient-to-br from-sky-50 to-neutral-100 text-3xl font-bold text-sky-200"
+        class="flex h-full w-full items-center justify-center bg-linear-to-br from-sky-50 to-neutral-100 text-3xl font-bold text-sky-200"
       >
         {{ title.charAt(0).toUpperCase() }}
       </div>
@@ -44,7 +44,7 @@ withDefaults(
       <!-- Soft gradient so a tag chip stays legible over any image -->
       <div
         v-if="tag"
-        class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/40 to-transparent"
+        class="absolute inset-x-0 top-0 h-16 bg-linear-to-b from-black/40 to-transparent"
       />
       <span
         v-if="tag"
@@ -77,7 +77,7 @@ withDefaults(
         </span>
         <ArrowUpRight
           :size="15"
-          class="translate-x-0 -translate-y-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          class="translate-x-0 translate-y-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
         />
       </div>
     </div>

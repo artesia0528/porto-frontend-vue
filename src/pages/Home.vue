@@ -7,7 +7,6 @@ import { useReducedMotion } from '@/composables/useReducedMotion'
 import Card from '@/components/Card.vue'
 import type { Project } from '@/types'
 import { Icon } from '@iconify/vue'
-import { Mail } from '@lucide/vue'
 import { motion } from 'motion-v'
 import {
   springTransition,
@@ -36,14 +35,22 @@ const techStack = {
   Tools: ['Git', 'GitHub', 'Docker', 'Linux', 'Postman', 'Figma'],
 }
 
+// Scroll cue is now functional, not just decorative
+function scrollToAbout() {
+  document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
+}
+
 onMounted(() => void run())
 </script>
 
 <template>
   <div>
     <!-- Hero Section -->
+    <!-- `relative` added: previously missing, which made the absolutely
+         positioned scroll cue below position itself against the nearest
+         positioned ancestor (often not this section) instead of the hero. -->
     <section
-      class="flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center gap-10 py-16 text-center md:flex-row md:gap-16 md:text-left"
+      class="relative flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center gap-10 py-16 text-center md:flex-row md:gap-16 md:text-left"
     >
       <motion.img
         src="/profile.webp"
@@ -77,65 +84,83 @@ onMounted(() => void run())
           pengalaman pengguna yang baik.
         </p>
 
-        <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row md:justify-start">
+        <!-- CTA hierarchy simplified to one clear primary action.
+             "Hubungi Saya" and "Download CV" are demoted to text-link style
+             so the eye isn't split three ways between equally-weighted buttons. -->
+        <div
+          class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6 md:justify-start"
+        >
           <RouterLink
             to="/projects"
-            class="rounded-md bg-sky-700 px-6 py-3 text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-sky-800"
+            class="rounded-md bg-sky-700 px-6 py-3 text-sm font-medium text-white transition-transform hover:scale-105 hover:bg-sky-800 focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none"
           >
             Lihat Projects
           </RouterLink>
           <RouterLink
             to="/contact"
-            class="rounded-md border border-neutral-300 px-6 py-3 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100"
+            class="text-sm font-medium text-neutral-600 underline-offset-4 transition-colors hover:text-neutral-900 hover:underline focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none"
           >
             Hubungi Saya
           </RouterLink>
           <a
-            href="/resume.pdf"
-            class="rounded-md border border-sky-700 px-6 py-3 text-sm font-medium text-sky-700 transition-colors hover:bg-sky-50"
+            href="https://krisnaaditya.my.id/files/CV_IKKAK.pdf"
+            class="text-sm font-medium text-neutral-600 underline-offset-4 transition-colors hover:text-neutral-900 hover:underline focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none"
+            target="_blank"
+            rel="noopener noreferrer"
             download
           >
             Download CV
           </a>
         </div>
 
-        <!-- Social links (inline SVG icons for lightweight polish) -->
+        <!-- Social links: all icons now use currentColor so the
+             text-neutral-400 → hover:text-neutral-900 classes actually work.
+             Previously each icon had a hardcoded `color`, which silently
+             overrode the Tailwind hover classes and made them dead code. -->
         <div class="mt-8 flex justify-center gap-5 md:justify-start">
           <a
             href="https://github.com/artesia0528"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            class="text-neutral-400 transition-colors hover:text-neutral-900"
+            class="text-neutral-400 transition-colors hover:text-neutral-900 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none"
           >
-            <Icon icon="simple-icons:github" width="24" height="24" color="#181717" />
+            <Icon icon="simple-icons:github" width="24" height="24" color="currentColor" />
           </a>
           <a
             href="https://linkedin.com/in/i-komang-krisna-aditya-kusuma"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
-            class="text-neutral-400 transition-colors hover:text-neutral-900"
+            class="text-neutral-400 transition-colors hover:text-blue-800 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none"
           >
-            <Icon icon="simple-icons:linkedin" width="24" height="24" color="#0077b5" />
+            <Icon icon="simple-icons:linkedin" width="24" height="24" color="currentColor" />
           </a>
           <a
             href="mailto:ditya0528@gmail.com"
             aria-label="Email"
-            class="text-neutral-400 transition-colors hover:text-neutral-900"
+            class="text-neutral-400 transition-colors hover:text-blue-800 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none"
           >
-            <Mail height="24" width="24" color="#181717" />
+            <!-- Switched from @lucide/vue Mail to iconify so all hero icons
+                 share one icon set's stroke weight and visual style. -->
+            <Icon icon="mdi:email-outline" width="24" height="24" color="currentColor" />
           </a>
         </div>
       </motion.div>
 
-      <!-- Scroll cue: skip the bounce loop for reduced-motion users -->
-      <motion.div
+      <!-- Scroll cue: skip the bounce loop for reduced-motion users.
+           Now a real <button> (not a bare div) with a click handler that
+           scrolls to the About section, so the affordance it visually
+           promises actually does something. -->
+      <motion.button
         v-if="!prefersReduced"
-        class="absolute bottom-8 left-1/2 hidden -translate-x-1/2 animate-bounce text-neutral-300 md:block"
+        type="button"
+        aria-label="Scroll ke bagian tentang saya"
+        class="absolute bottom-8 left-1/2 hidden -translate-x-1/2 animate-bounce text-neutral-300 transition-colors hover:text-neutral-500 focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none md:block"
         :initial="{ opacity: 0 }"
         :animate="{ opacity: 1 }"
         :transition="{ delay: 1, duration: 1 }"
+        @click="scrollToAbout"
       >
         <svg
           width="20"
@@ -147,12 +172,14 @@ onMounted(() => void run())
         >
           <path d="M12 5v14M5 12l7 7 7-7" />
         </svg>
-      </motion.div>
+      </motion.button>
     </section>
 
     <!-- About Section -->
+    <!-- id="about" added as the scroll cue's target -->
     <motion.section
-      class="flex min-h-[85dvh] flex-col justify-center border-t border-neutral-200 py-20"
+      id="about"
+      class="flex min-h-[85dvh] scroll-mt-16 flex-col justify-center border-t border-neutral-200 py-20"
       v-bind="fadeUpSection"
     >
       <div class="h-1 w-16 rounded bg-sky-600"></div>
@@ -227,7 +254,7 @@ onMounted(() => void run())
         </div>
         <RouterLink
           to="/projects"
-          class="text-sm font-medium text-neutral-500 transition-colors hover:text-neutral-900"
+          class="text-sm font-medium text-neutral-500 transition-colors hover:text-neutral-900 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none"
         >
           Lihat Semua →
         </RouterLink>
@@ -249,7 +276,6 @@ onMounted(() => void run())
           v-for="(project, idx) in projects"
           :key="project.id"
           v-bind="{ ...staggerItem, ...hoverLift }"
-          :class="idx === 0 ? 'rounded ring-2 ring-sky-100' : ''"
         >
           <Card
             :title="project.title"

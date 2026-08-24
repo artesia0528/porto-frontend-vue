@@ -12,6 +12,9 @@ import DataTable from '@/components/DataTable.vue'
 import type { Column } from '@/components/DataTable.vue'
 import Modal from '@/components/Modal.vue'
 import BaseButton from '@/components/BaseButton.vue'
+import FormInput from '@/components/FormInput.vue'
+import FormTextarea from '@/components/FormTextarea.vue'
+import FormCheckbox from '@/components/FormCheckbox.vue'
 import ImageUploadField from '@/components/ImageUploadField.vue'
 import type { Experience } from '@/types'
 
@@ -28,8 +31,10 @@ const columns: Column[] = [
 ]
 
 const modalOpen = ref(false)
+const deleteModalOpen = ref(false)
 const isEditing = ref(false)
 const editingId = ref('')
+const selectedExperience = ref<Record<string, unknown> | null>(null)
 const logoFile = ref<File | null>(null)
 const form = ref({
   company: '',
@@ -220,14 +225,21 @@ async function handleSave() {
   }
 }
 
-async function handleDelete(item: Record<string, unknown>) {
-  if (confirm('Delete this experience?')) {
-    try {
-      await deleteExperience(String(item.id))
-      fetchExperiences()
-    } catch {
-      // error handled by useFetch interceptor
-    }
+function openDeleteConfirm(item: Record<string, unknown>) {
+  selectedExperience.value = item
+  deleteModalOpen.value = true
+}
+
+async function confirmDelete() {
+  if (!selectedExperience.value) return
+
+  try {
+    await deleteExperience(String(selectedExperience.value.id))
+    deleteModalOpen.value = false
+    selectedExperience.value = null
+    fetchExperiences()
+  } catch {
+    // error handled by useFetch interceptor
   }
 }
 </script>
@@ -243,8 +255,30 @@ async function handleDelete(item: Record<string, unknown>) {
       :columns="columns"
       :items="(experiences as unknown as Record<string, unknown>[]) ?? []"
       @edit="openEdit"
-      @delete="handleDelete"
+      @delete="openDeleteConfirm"
     />
+
+    <Modal :open="deleteModalOpen" @close="deleteModalOpen = false">
+      <div class="space-y-5">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-red-500">Confirm</p>
+          <h2 class="mt-2 text-2xl font-bold text-slate-900">Delete this experience?</h2>
+        </div>
+
+        <div v-if="selectedExperience" class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+          <p class="text-sm font-semibold text-slate-800">{{ selectedExperience.company }}</p>
+          <p class="mt-1 text-sm text-slate-600">{{ selectedExperience.position }}</p>
+          <p class="mt-2 text-sm text-slate-600">
+            This action cannot be undone. The experience entry will be permanently removed.
+          </p>
+        </div>
+
+        <div class="flex justify-end gap-3 border-t border-slate-200 pt-4">
+          <BaseButton variant="secondary" @click="deleteModalOpen = false">Cancel</BaseButton>
+          <BaseButton variant="danger" @click="confirmDelete">Delete</BaseButton>
+        </div>
+      </div>
+    </Modal>
 
     <Modal :open="modalOpen" @close="modalOpen = false">
       <div class="space-y-6">
@@ -257,108 +291,61 @@ async function handleDelete(item: Record<string, unknown>) {
 
         <form class="space-y-5" @submit.prevent="handleSave">
           <div class="grid gap-4 md:grid-cols-2">
-            <label class="block">
-              <div class="mb-2 flex items-center justify-between gap-3">
-                <span class="text-sm font-medium text-slate-700">Company</span>
-                <span class="text-xs font-medium text-red-500">Wajib</span>
-              </div>
-              <input
-                v-model="form.company"
-                type="text"
-                class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100 focus:outline-none"
-                :class="formErrors.company ? 'border-red-300 bg-red-50' : ''"
-                placeholder="Contoh: Google"
-              />
-              <p v-if="formErrors.company" class="mt-1 text-xs text-red-600">
-                {{ formErrors.company }}
-              </p>
-            </label>
+            <FormInput
+              v-model="form.company"
+              label="Company"
+              :required="true"
+              :error="formErrors.company"
+              placeholder="Contoh: Google"
+            />
 
-            <label class="block">
-              <div class="mb-2 flex items-center justify-between gap-3">
-                <span class="text-sm font-medium text-slate-700">Position</span>
-                <span class="text-xs font-medium text-red-500">Wajib</span>
-              </div>
-              <input
-                v-model="form.position"
-                type="text"
-                class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100 focus:outline-none"
-                :class="formErrors.position ? 'border-red-300 bg-red-50' : ''"
-                placeholder="Contoh: Frontend Developer"
-              />
-              <p v-if="formErrors.position" class="mt-1 text-xs text-red-600">
-                {{ formErrors.position }}
-              </p>
-            </label>
+            <FormInput
+              v-model="form.position"
+              label="Position"
+              :required="true"
+              :error="formErrors.position"
+              placeholder="Contoh: Frontend Developer"
+            />
           </div>
 
           <div class="grid gap-4 md:grid-cols-2">
-            <label class="block">
-              <div class="mb-2 flex items-center justify-between gap-3">
-                <span class="text-sm font-medium text-slate-700">Start Date</span>
-                <span class="text-xs font-medium text-red-500">Wajib</span>
-              </div>
-              <input
-                v-model="form.start_date"
-                type="date"
-                class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100 focus:outline-none"
-                :class="formErrors.start_date ? 'border-red-300 bg-red-50' : ''"
-              />
-              <p v-if="formErrors.start_date" class="mt-1 text-xs text-red-600">
-                {{ formErrors.start_date }}
-              </p>
-            </label>
-
-            <label class="block">
-              <div class="mb-2 flex items-center justify-between gap-3">
-                <span class="text-sm font-medium text-slate-700">End Date</span>
-                <span
-                  class="text-xs font-medium text-red-500"
-                  :class="form.is_current ? 'text-slate-400' : ''"
-                  >{{ form.is_current ? 'Opsional' : 'Wajib' }}</span
-                >
-              </div>
-              <input
-                v-model="form.end_date"
-                type="date"
-                :disabled="form.is_current"
-                class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100 focus:outline-none disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
-                :class="formErrors.end_date ? 'border-red-300 bg-red-50' : ''"
-              />
-              <p v-if="formErrors.end_date" class="mt-1 text-xs text-red-600">
-                {{ formErrors.end_date }}
-              </p>
-            </label>
-          </div>
-
-          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-            <label class="flex cursor-pointer items-center gap-3">
-              <input
-                v-model="form.is_current"
-                type="checkbox"
-                @change="handleCurrentToggle"
-                class="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
-              />
-              <span class="text-sm font-medium text-slate-700">Saat ini masih bekerja disini</span>
-            </label>
-          </div>
-
-          <label class="block">
-            <div class="mb-2 flex items-center justify-between gap-3">
-              <span class="text-sm font-medium text-slate-700">Description</span>
-              <span class="text-xs font-medium text-red-500">Wajib</span>
-            </div>
-            <textarea
-              v-model="form.description"
-              rows="5"
-              class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100 focus:outline-none"
-              :class="formErrors.description ? 'border-red-300 bg-red-50' : ''"
-              placeholder="Jelaskan tugas, kontribusi, dan pencapaian Anda..."
+            <FormInput
+              v-model="form.start_date"
+              label="Start Date"
+              :required="true"
+              :error="formErrors.start_date"
+              type="date"
             />
-            <p v-if="formErrors.description" class="mt-1 text-xs text-red-600">
-              {{ formErrors.description }}
-            </p>
-          </label>
+
+            <FormInput
+              v-model="form.end_date"
+              label="End Date"
+              :required="!form.is_current"
+              :error="formErrors.end_date"
+              type="date"
+              :disabled="form.is_current"
+            />
+          </div>
+
+          <FormCheckbox
+            :model-value="form.is_current"
+            label="Saat ini masih bekerja disini"
+            @update:model-value="
+              (value) => {
+                form.is_current = value
+                handleCurrentToggle()
+              }
+            "
+          />
+
+          <FormTextarea
+            v-model="form.description"
+            label="Description"
+            :required="true"
+            :error="formErrors.description"
+            :rows="5"
+            placeholder="Jelaskan tugas, kontribusi, dan pencapaian Anda..."
+          />
 
           <ImageUploadField
             v-model="logoFile"
