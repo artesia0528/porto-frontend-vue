@@ -25,16 +25,16 @@ function onChange(event: Event) {
 </script>
 
 <template>
-  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-800">
     <label class="flex cursor-pointer items-center gap-3">
       <input
         :checked="modelValue"
         type="checkbox"
-        class="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+        class="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-700"
         :aria-invalid="!!error"
         @change="onChange"
       />
-      <span class="text-sm font-medium text-slate-700">{{ label }}</span>
+      <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ label }}</span>
     </label>
     <p v-if="error" class="mt-2 text-xs text-red-600">{{ error }}</p>
   </div>

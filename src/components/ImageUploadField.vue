@@ -74,16 +74,16 @@ function clearImage(): void {
 <template>
   <label class="block">
     <div class="mb-2 flex items-center justify-between gap-3">
-      <span class="text-sm font-medium text-slate-700">{{ label }}</span>
+      <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ label }}</span>
       <span v-if="required" class="text-xs font-medium text-red-500">Wajib</span>
     </div>
 
     <div
-      class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-3 transition-all duration-200 hover:border-sky-300 hover:bg-sky-50"
+      class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-3 transition-all duration-200 hover:border-sky-300 hover:bg-sky-50 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-sky-500 dark:hover:bg-sky-900/20"
     >
       <div
         v-if="preview"
-        class="relative overflow-hidden rounded-xl border border-slate-200 bg-white"
+        class="relative overflow-hidden rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900"
       >
         <img :src="preview" alt="Preview upload" class="h-40 w-full object-cover" />
         <button
@@ -97,7 +97,7 @@ function clearImage(): void {
       </div>
 
       <label
-        class="mt-3 flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-600 transition hover:border-sky-300 hover:text-sky-700"
+        class="mt-3 flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-600 transition hover:border-sky-300 hover:text-sky-700 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-sky-500 dark:hover:text-sky-400"
       >
         <ImagePlus :size="16" />
         <span>{{ preview ? 'Ganti gambar' : 'Pilih gambar' }}</span>

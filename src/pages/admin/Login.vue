@@ -2,9 +2,11 @@
 redirects on success.
 
 <template>
-  <div class="flex min-h-screen items-center justify-center bg-slate-100 px-4 py-10">
+  <div
+    class="flex min-h-screen items-center justify-center bg-slate-100 px-4 py-10 dark:bg-slate-900"
+  >
     <div
-      class="grid w-full max-w-5xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-slate-200/70 lg:grid-cols-[1.1fr_0.9fr]"
+      class="grid w-full max-w-5xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-slate-200/70 lg:grid-cols-[1.1fr_0.9fr] dark:border-slate-700 dark:bg-slate-800 dark:shadow-slate-950/50"
     >
       <div
         class="relative hidden bg-slate-900 p-10 text-white lg:flex lg:flex-col lg:justify-between"
@@ -48,7 +50,7 @@ redirects on success.
             <p class="text-xs font-semibold uppercase tracking-[0.25em] text-indigo-600">
               Welcome back
             </p>
-            <h2 class="mt-3 text-3xl font-bold text-slate-900">Sign in</h2>
+            <h2 class="mt-3 text-3xl font-bold text-slate-900 dark:text-slate-100">Sign in</h2>
           </div>
 
           <form @submit.prevent="onSubmit" class="space-y-5">
@@ -59,7 +61,7 @@ redirects on success.
 
             <div
               v-if="error"
-              class="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600"
+              class="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600 dark:border-red-900 dark:bg-red-950/40 dark:text-red-400"
             >
               {{ error }}
             </div>
@@ -84,6 +86,8 @@ import { useRouter } from 'vue-router'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import { useAuthStore } from '@/stores/auth'
+
+defineOptions({ name: 'AdminLogin' })
 
 const auth = useAuthStore()
 const router = useRouter()

@@ -136,7 +136,7 @@ async function confirmDelete() {
 <template>
   <div>
     <div class="mb-4 flex items-center justify-between">
-      <h1 class="text-2xl font-bold text-slate-900">Manage Projects</h1>
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Manage Projects</h1>
       <BaseButton variant="primary" @click="openCreate">+ New Project</BaseButton>
     </div>
 
@@ -151,17 +151,17 @@ async function confirmDelete() {
       <div class="space-y-5">
         <div>
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-red-500">Confirm</p>
-          <h2 class="mt-2 text-2xl font-bold text-slate-900">Delete this project?</h2>
+          <h2 class="mt-2 text-2xl font-bold text-slate-900 dark:text-slate-100">Delete this project?</h2>
         </div>
 
-        <div v-if="selectedProject" class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <p class="text-sm font-semibold text-slate-800">{{ selectedProject.title }}</p>
-          <p class="mt-2 text-sm text-slate-600">
+        <div v-if="selectedProject" class="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800">
+          <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">{{ selectedProject.title }}</p>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
             This action cannot be undone. The project will be permanently removed.
           </p>
         </div>
 
-        <div class="flex justify-end gap-3 border-t border-slate-200 pt-4">
+        <div class="flex justify-end gap-3 border-t border-slate-200 pt-4 dark:border-slate-700">
           <BaseButton variant="secondary" @click="deleteModalOpen = false">Cancel</BaseButton>
           <BaseButton variant="danger" @click="confirmDelete">Delete</BaseButton>
         </div>
@@ -172,7 +172,7 @@ async function confirmDelete() {
       <div class="space-y-6">
         <div>
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Project</p>
-          <h2 class="mt-2 text-2xl font-bold text-slate-900">
+          <h2 class="mt-2 text-2xl font-bold text-slate-900 dark:text-slate-100">
             {{ isEditing ? 'Edit Project' : 'New Project' }}
           </h2>
         </div>
@@ -203,7 +203,7 @@ async function confirmDelete() {
             :error="formErrors.image"
           />
 
-          <div class="flex justify-end gap-3 border-t border-slate-200 pt-4">
+          <div class="flex justify-end gap-3 border-t border-slate-200 pt-4 dark:border-slate-700">
             <BaseButton variant="secondary" @click="modalOpen = false">Cancel</BaseButton>
             <BaseButton type="submit" variant="primary">Save</BaseButton>
           </div>

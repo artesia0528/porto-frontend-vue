@@ -32,18 +32,18 @@ onMounted(() => void run())
     <!-- Header -->
     <motion.div v-bind="fadeUpSection">
       <div class="h-1 w-16 rounded bg-sky-600"></div>
-      <p class="mt-4 text-sm font-semibold tracking-widest text-neutral-400 uppercase">Karya</p>
+      <p class="mt-4 text-sm font-semibold tracking-widest text-neutral-400 uppercase dark:text-neutral-500">Karya</p>
       <div class="mt-2 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 class="text-3xl font-bold text-neutral-900 sm:text-4xl">Projects</h1>
-          <p class="mt-2 max-w-xl text-sm leading-relaxed text-neutral-500 sm:text-base">
+          <h1 class="text-3xl font-bold text-neutral-900 sm:text-4xl dark:text-neutral-100">Projects</h1>
+          <p class="mt-2 max-w-xl text-sm leading-relaxed text-neutral-500 sm:text-base dark:text-neutral-400">
             Kumpulan aplikasi dan eksperimen yang pernah saya bangun, dari front-end hingga
             back-end. Beberapa project bersifat open-source, beberapa lainnya adalah project pribadi
             atau untuk klien.
           </p>
         </div>
 
-        <p v-if="!loading && !error" class="text-sm text-neutral-400">
+        <p v-if="!loading && !error" class="text-sm text-neutral-400 dark:text-neutral-500">
           {{ filteredProjects.length }} dari {{ projects.length }} project
         </p>
       </div>
@@ -52,13 +52,13 @@ onMounted(() => void run())
       <div class="relative mt-8 max-w-sm">
         <Search
           :size="16"
-          class="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-neutral-400"
+          class="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-neutral-400 dark:text-neutral-500"
         />
         <input
           v-model="query"
           type="text"
           placeholder="Cari project…"
-          class="w-full rounded-lg border border-neutral-200 bg-white py-2.5 pr-4 pl-10 text-sm text-neutral-700 placeholder:text-neutral-400 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 focus:outline-none"
+          class="w-full rounded-lg border border-neutral-200 bg-white py-2.5 pr-4 pl-10 text-sm text-neutral-700 placeholder:text-neutral-400 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 focus:outline-none dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:border-sky-500 dark:focus:ring-sky-900/50"
         />
       </div>
     </motion.div>
@@ -68,13 +68,13 @@ onMounted(() => void run())
       <div
         v-for="n in 6"
         :key="n"
-        class="animate-pulse overflow-hidden rounded-2xl border border-neutral-200 bg-white"
+        class="animate-pulse overflow-hidden rounded-2xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-800"
       >
-        <div class="aspect-16/10 w-full bg-neutral-100"></div>
+        <div class="aspect-16/10 w-full bg-neutral-100 dark:bg-neutral-700"></div>
         <div class="space-y-2 p-5">
-          <div class="h-4 w-3/4 rounded bg-neutral-100"></div>
-          <div class="h-3 w-full rounded bg-neutral-100"></div>
-          <div class="h-3 w-2/3 rounded bg-neutral-100"></div>
+          <div class="h-4 w-3/4 rounded bg-neutral-100 dark:bg-neutral-700"></div>
+          <div class="h-3 w-full rounded bg-neutral-100 dark:bg-neutral-700"></div>
+          <div class="h-3 w-2/3 rounded bg-neutral-100 dark:bg-neutral-700"></div>
         </div>
       </div>
     </div>
@@ -82,7 +82,7 @@ onMounted(() => void run())
     <!-- Error -->
     <div
       v-if="error"
-      class="mt-10 flex items-start gap-3 rounded-xl border border-red-100 bg-red-50 p-5 text-red-700"
+      class="mt-10 flex items-start gap-3 rounded-xl border border-red-100 bg-red-50 p-5 text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-400"
     >
       <AlertCircle :size="20" class="mt-0.5 shrink-0" />
       <div>
@@ -111,10 +111,10 @@ onMounted(() => void run())
     <!-- Empty: distinguishes "no data at all" from "no search match" -->
     <div
       v-else-if="!loading && !error && !filteredProjects.length"
-      class="mt-16 flex flex-col items-center justify-center rounded-2xl border border-dashed border-neutral-200 py-16 text-center"
+      class="mt-16 flex flex-col items-center justify-center rounded-2xl border border-dashed border-neutral-200 py-16 text-center dark:border-neutral-700"
     >
-      <FolderOpen :size="32" class="text-neutral-300" />
-      <p class="mt-4 text-sm font-medium text-neutral-600">
+      <FolderOpen :size="32" class="text-neutral-300 dark:text-neutral-600" />
+      <p class="mt-4 text-sm font-medium text-neutral-600 dark:text-neutral-400">
         {{
           query
             ? `Tidak ada project yang cocok dengan "${query}"`

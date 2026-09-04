@@ -5,7 +5,7 @@ import Footer from '@/components/Footer.vue'
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col bg-slate-50">
+  <div class="flex min-h-screen flex-col bg-slate-50 dark:bg-slate-950">
     <Navbar />
     <!-- Page content rendered by <RouterView /> -->
     <main class="mx-auto w-full max-w-6xl flex-1 px-4 py-8">

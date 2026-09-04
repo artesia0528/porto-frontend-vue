@@ -62,10 +62,10 @@ onMounted(() => void run())
   <div class="mx-auto max-w-6xl pt-28 pb-20">
     <motion.div v-bind="fadeUpSection">
       <div class="h-1 w-16 rounded bg-sky-600"></div>
-      <p class="mt-4 text-sm font-semibold tracking-widest text-neutral-400 uppercase">Roadmap</p>
+      <p class="mt-4 text-sm font-semibold tracking-widest text-neutral-400 uppercase dark:text-neutral-500">Roadmap</p>
       <div class="mt-2">
-        <h1 class="text-3xl font-bold text-neutral-900 sm:text-4xl">Experience</h1>
-        <p class="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-500 sm:text-base">
+        <h1 class="text-3xl font-bold text-neutral-900 sm:text-4xl dark:text-neutral-100">Experience</h1>
+        <p class="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-500 sm:text-base dark:text-neutral-400">
           Jejak perjalanan profesional yang membentuk cara saya berpikir dalam membangun produk,
           bekerja sama dengan tim, dan menyelesaikan masalah dengan pendekatan yang manusiawi.
         </p>
@@ -76,18 +76,18 @@ onMounted(() => void run())
       <div
         v-for="n in 3"
         :key="n"
-        class="animate-pulse rounded-2xl border border-neutral-200 bg-white p-6"
+        class="animate-pulse rounded-2xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-neutral-800"
       >
-        <div class="h-5 w-40 rounded bg-neutral-100"></div>
-        <div class="mt-3 h-4 w-64 rounded bg-neutral-100"></div>
-        <div class="mt-5 h-3 w-full rounded bg-neutral-100"></div>
-        <div class="mt-2 h-3 w-5/6 rounded bg-neutral-100"></div>
+        <div class="h-5 w-40 rounded bg-neutral-100 dark:bg-neutral-700"></div>
+        <div class="mt-3 h-4 w-64 rounded bg-neutral-100 dark:bg-neutral-700"></div>
+        <div class="mt-5 h-3 w-full rounded bg-neutral-100 dark:bg-neutral-700"></div>
+        <div class="mt-2 h-3 w-5/6 rounded bg-neutral-100 dark:bg-neutral-700"></div>
       </div>
     </div>
 
     <div
       v-if="error"
-      class="mt-10 flex items-start gap-3 rounded-xl border border-red-100 bg-red-50 p-5 text-red-700"
+      class="mt-10 flex items-start gap-3 rounded-xl border border-red-100 bg-red-50 p-5 text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-400"
     >
       <AlertCircle :size="20" class="mt-0.5 shrink-0" />
       <div>
@@ -102,7 +102,7 @@ onMounted(() => void run())
       v-bind="staggerContainer(0.08)"
     >
       <div
-        class="relative space-y-6 before:absolute before:top-2 before:bottom-2 before:left-[1.15rem] before:w-px before:bg-linear-to-b before:from-sky-200 before:via-sky-100 before:to-neutral-200 md:before:left-[2.15rem]"
+        class="relative space-y-6 before:absolute before:top-2 before:bottom-2 before:left-[1.15rem] before:w-px before:bg-linear-to-b before:from-sky-200 before:via-sky-100 before:to-neutral-200 md:before:left-[2.15rem] dark:before:from-sky-800 dark:before:via-sky-900 dark:before:to-neutral-800"
       >
         <motion.article
           v-for="experience in experiences"
@@ -111,19 +111,19 @@ onMounted(() => void run())
           class="group relative pl-10 md:pl-16"
         >
           <div
-            class="absolute left-0 top-7 flex h-9 w-9 items-center justify-center rounded-full border-4 border-white bg-sky-500 shadow-[0_0_0_4px_rgba(14,165,233,0.12)] md:left-0 md:h-10 md:w-10"
+            class="absolute left-0 top-7 flex h-9 w-9 items-center justify-center rounded-full border-4 border-white bg-sky-500 shadow-[0_0_0_4px_rgba(14,165,233,0.12)] md:left-0 md:h-10 md:w-10 dark:border-slate-950"
           >
             <BriefcaseBusiness :size="16" class="text-white" />
           </div>
 
           <div
-            class="overflow-hidden rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-xl sm:p-6"
+            class="overflow-hidden rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-xl sm:p-6 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-sky-800"
           >
             <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div class="flex items-start gap-4">
                 <div
                   v-if="experience.logo_url"
-                  class="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-50"
+                  class="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800"
                 >
                   <img
                     :src="experience.logo_url"
@@ -133,23 +133,23 @@ onMounted(() => void run())
                 </div>
                 <div
                   v-else
-                  class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-lg font-bold text-sky-700"
+                  class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-lg font-bold text-sky-700 dark:bg-sky-900/40 dark:text-sky-400"
                 >
                   {{ experience.company.charAt(0).toUpperCase() }}
                 </div>
 
                 <div>
                   <span
-                    class="inline-flex items-center rounded-full border border-sky-100 bg-sky-50 px-2.5 py-1 text-[10px] font-semibold tracking-[0.18em] text-sky-700 uppercase"
+                    class="inline-flex items-center rounded-full border border-sky-100 bg-sky-50 px-2.5 py-1 text-[10px] font-semibold tracking-[0.18em] text-sky-700 uppercase dark:border-sky-800 dark:bg-sky-900/40 dark:text-sky-400"
                   >
                     {{ experience.position }}
                   </span>
-                  <h2 class="mt-3 text-2xl font-bold text-neutral-900">{{ experience.company }}</h2>
+                  <h2 class="mt-3 text-2xl font-bold text-neutral-900 dark:text-neutral-100">{{ experience.company }}</h2>
                 </div>
               </div>
 
               <div
-                class="inline-flex items-center gap-2 self-start rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1.5 text-xs font-medium text-neutral-600"
+                class="inline-flex items-center gap-2 self-start rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1.5 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400"
               >
                 <CalendarRange :size="14" class="text-sky-600" />
                 {{
@@ -160,7 +160,7 @@ onMounted(() => void run())
 
             <p
               v-if="experience.description"
-              class="mt-5 max-w-3xl text-sm leading-relaxed text-neutral-600 sm:text-base"
+              class="mt-5 max-w-3xl text-sm leading-relaxed text-neutral-600 sm:text-base dark:text-neutral-400"
             >
               {{ experience.description }}
             </p>
@@ -171,10 +171,10 @@ onMounted(() => void run())
 
     <div
       v-else-if="!loading && !error && !experiences.length"
-      class="mt-16 flex flex-col items-center justify-center rounded-2xl border border-dashed border-neutral-200 py-16 text-center"
+      class="mt-16 flex flex-col items-center justify-center rounded-2xl border border-dashed border-neutral-200 py-16 text-center dark:border-neutral-700"
     >
-      <BriefcaseBusiness :size="32" class="text-neutral-300" />
-      <p class="mt-4 text-sm font-medium text-neutral-600">
+      <BriefcaseBusiness :size="32" class="text-neutral-300 dark:text-neutral-600" />
+      <p class="mt-4 text-sm font-medium text-neutral-600 dark:text-neutral-400">
         Belum ada experience untuk ditampilkan.
       </p>
     </div>

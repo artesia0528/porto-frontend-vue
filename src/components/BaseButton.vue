@@ -21,14 +21,14 @@ defineEmits<{
 
 const computedClass = computed(() => {
   if (props.variant === 'primary') {
-    return 'bg-blue-600 text-white hover:bg-blue-700'
+    return 'bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600'
   }
 
   if (props.variant === 'danger') {
-    return 'bg-red-600 text-white hover:bg-red-700'
+    return 'bg-red-600 text-white hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600'
   }
 
-  return 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+  return 'bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700'
 })
 </script>
 

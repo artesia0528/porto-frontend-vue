@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import { motion } from 'motion-v'
 import { springTransitionSoft } from '@/motion/variants'
 import { useReducedMotion } from '@/composables/useReducedMotion'
+import ThemeToggle from '@/components/ThemeToggle.vue'
 
 const isOpen = ref(false)
 const prefersReduced = useReducedMotion()
@@ -31,7 +32,7 @@ function closeMenu() {
     navigation — worth confirming Navbar isn't inside the routed view.
   -->
   <motion.nav
-    class="fixed inset-x-0 top-0 z-50 h-16 border-b border-neutral-200 bg-neutral-50/80 backdrop-blur-md"
+    class="fixed inset-x-0 top-0 z-50 h-16 border-b border-neutral-200 bg-neutral-50/80 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-900/80"
     :initial="prefersReduced ? false : { y: -100 }"
     :animate="{ y: 0 }"
     :transition="springTransitionSoft"
@@ -53,7 +54,7 @@ function closeMenu() {
           v-for="link in navLinks"
           :key="link.to"
           :to="link.to"
-          class="relative px-3 py-2 text-sm text-neutral-500 transition-colors after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:bg-sky-700 after:transition-transform after:content-[''] hover:text-neutral-900 [&.router-link-exact-active]:font-medium [&.router-link-exact-active]:text-neutral-900 [&.router-link-exact-active]:after:scale-x-100"
+          class="relative px-3 py-2 text-sm text-neutral-500 transition-colors after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:bg-sky-700 after:transition-transform after:content-[''] hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 [&.router-link-exact-active]:font-medium [&.router-link-exact-active]:text-neutral-900 [&.router-link-exact-active]:after:scale-x-100 dark:[&.router-link-exact-active]:text-neutral-100"
         >
           {{ link.label }}
         </RouterLink>
@@ -64,46 +65,51 @@ function closeMenu() {
         >
           Contact
         </RouterLink>
+
+        <ThemeToggle class="ml-1" />
       </div>
 
       <!-- Hamburger button (mobile only) -->
-      <button
-        class="inline-flex items-center justify-center rounded p-2 text-neutral-700 transition-colors hover:bg-neutral-200 md:hidden"
-        @click="toggleMenu"
-        :aria-expanded="isOpen"
-        aria-label="Toggle navigation menu"
-      >
-        <svg
-          v-if="!isOpen"
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+      <div class="flex items-center gap-1 md:hidden">
+        <ThemeToggle />
+        <button
+          class="inline-flex items-center justify-center rounded p-2 text-neutral-700 transition-colors hover:bg-neutral-200 dark:text-neutral-300 dark:hover:bg-neutral-700"
+          @click="toggleMenu"
+          :aria-expanded="isOpen"
+          aria-label="Toggle navigation menu"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
-        <svg
-          v-else
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
+          <svg
+            v-if="!isOpen"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+          <svg
+            v-else
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
 
     <!-- Mobile menu (overlay, floats above content) -->
@@ -117,21 +123,21 @@ function closeMenu() {
     >
       <div
         v-if="isOpen"
-        class="absolute inset-x-0 top-full border-b border-neutral-200 bg-neutral-50 shadow-lg md:hidden"
+        class="absolute inset-x-0 top-full border-b border-neutral-200 bg-neutral-50 shadow-lg dark:border-neutral-800 dark:bg-neutral-900 md:hidden"
       >
         <div class="flex flex-col px-4 py-2">
           <RouterLink
             v-for="link in navLinks"
             :key="link.to"
             :to="link.to"
-            class="border-b border-neutral-200 py-3 text-sm text-neutral-600 last:border-b-0 hover:text-neutral-900 [&.router-link-exact-active]:font-medium [&.router-link-exact-active]:text-sky-700"
+            class="border-b border-neutral-200 py-3 text-sm text-neutral-600 last:border-b-0 hover:text-neutral-900 dark:border-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-100 [&.router-link-exact-active]:font-medium [&.router-link-exact-active]:text-sky-700"
             @click="closeMenu"
           >
             {{ link.label }}
           </RouterLink>
           <RouterLink
             to="/contact"
-            class="py-3 text-sm text-neutral-600 hover:text-neutral-900 [&.router-link-exact-active]:font-medium [&.router-link-exact-active]:text-sky-700"
+            class="py-3 text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 [&.router-link-exact-active]:font-medium [&.router-link-exact-active]:text-sky-700"
             @click="closeMenu"
           >
             Contact

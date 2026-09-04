@@ -1,5 +1,7 @@
 <!-- src/pages/admin/Experiences.vue — Admin CRUD for experiences. -->
 <script setup lang="ts">
+defineOptions({ name: 'ExperiencesPage' })
+
 import { computed, ref, onMounted } from 'vue'
 import { useFetch } from '@/composables/useFetch'
 import {
@@ -205,7 +207,7 @@ async function handleSave() {
     }
 
     if (isEditing.value) {
-      await updateExperience(editingId.value, payload as any)
+      await updateExperience(editingId.value, payload as Parameters<typeof updateExperience>[1])
     } else {
       if (!logoFile.value) {
         alert('Logo wajib diupload saat membuat experience baru.')
@@ -214,7 +216,7 @@ async function handleSave() {
       await createExperience({
         ...payload,
         logo: logoFile.value as File,
-      } as any)
+      } as Parameters<typeof createExperience>[0])
     }
 
     modalOpen.value = false
@@ -247,7 +249,7 @@ async function confirmDelete() {
 <template>
   <div>
     <div class="mb-4 flex items-center justify-between">
-      <h1 class="text-2xl font-bold text-slate-900">Manage Experiences</h1>
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Manage Experiences</h1>
       <BaseButton variant="primary" @click="openCreate">+ New Experience</BaseButton>
     </div>
 
@@ -262,18 +264,27 @@ async function confirmDelete() {
       <div class="space-y-5">
         <div>
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-red-500">Confirm</p>
-          <h2 class="mt-2 text-2xl font-bold text-slate-900">Delete this experience?</h2>
+          <h2 class="mt-2 text-2xl font-bold text-slate-900 dark:text-slate-100">
+            Delete this experience?
+          </h2>
         </div>
 
-        <div v-if="selectedExperience" class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <p class="text-sm font-semibold text-slate-800">{{ selectedExperience.company }}</p>
-          <p class="mt-1 text-sm text-slate-600">{{ selectedExperience.position }}</p>
-          <p class="mt-2 text-sm text-slate-600">
+        <div
+          v-if="selectedExperience"
+          class="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800"
+        >
+          <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">
+            {{ selectedExperience.company }}
+          </p>
+          <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
+            {{ selectedExperience.position }}
+          </p>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
             This action cannot be undone. The experience entry will be permanently removed.
           </p>
         </div>
 
-        <div class="flex justify-end gap-3 border-t border-slate-200 pt-4">
+        <div class="flex justify-end gap-3 border-t border-slate-200 pt-4 dark:border-slate-700">
           <BaseButton variant="secondary" @click="deleteModalOpen = false">Cancel</BaseButton>
           <BaseButton variant="danger" @click="confirmDelete">Delete</BaseButton>
         </div>
@@ -284,7 +295,7 @@ async function confirmDelete() {
       <div class="space-y-6">
         <div>
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Experience</p>
-          <h2 class="mt-2 text-2xl font-bold text-slate-900">
+          <h2 class="mt-2 text-2xl font-bold text-slate-900 dark:text-slate-100">
             {{ isEditing ? 'Edit Experience' : 'New Experience' }}
           </h2>
         </div>
@@ -355,7 +366,7 @@ async function confirmDelete() {
             :error="formErrors.logo"
           />
 
-          <div class="flex justify-end gap-3 border-t border-slate-200 pt-4">
+          <div class="flex justify-end gap-3 border-t border-slate-200 pt-4 dark:border-slate-700">
             <BaseButton variant="secondary" @click="modalOpen = false">Cancel</BaseButton>
             <BaseButton type="submit" variant="primary">Save</BaseButton>
           </div>

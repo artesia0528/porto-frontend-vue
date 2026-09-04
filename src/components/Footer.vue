@@ -1,4 +1,4 @@
-<!-- File: src/components/Footer.vue — Site footer -->
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 import { Mail, ArrowUp } from '@lucide/vue'
@@ -12,8 +12,8 @@ function scrollToTop() {
 </script>
 
 <template>
-  <motion.footer 
-    class="mt-8 border-t border-neutral-200 bg-neutral-50"
+  <motion.footer
+    class="mt-8 border-t border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900"
     :initial="{ opacity: 0, y: 50 }"
     :whileInView="{ opacity: 1, y: 0 }"
     :viewport="{ once: true }"
@@ -30,9 +30,9 @@ function scrollToTop() {
             >
               KA
             </span>
-            <h3 class="text-base font-bold text-neutral-800">I Komang Krisna Aditya Kusuma</h3>
+            <h3 class="text-base font-bold text-neutral-800 dark:text-neutral-100">I Komang Krisna Aditya Kusuma</h3>
           </div>
-          <p class="mt-4 max-w-xs text-sm leading-relaxed text-neutral-500">
+          <p class="mt-4 max-w-xs text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">
             Software Developer yang fokus membangun aplikasi web modern, fungsional, dan mudah
             digunakan.
           </p>
@@ -42,7 +42,7 @@ function scrollToTop() {
             <a
               href="mailto:ditya0528@gmail.com"
               aria-label="Email"
-              class="text-neutral-400 transition-colors hover:text-sky-700"
+              class="text-neutral-400 transition-colors hover:text-sky-700 dark:text-neutral-500 dark:hover:text-sky-400"
             >
               <Mail :size="20" />
             </a>
@@ -51,7 +51,7 @@ function scrollToTop() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              class="text-neutral-400 transition-colors hover:text-sky-700"
+              class="text-neutral-400 transition-colors hover:text-sky-700 dark:text-neutral-500 dark:hover:text-sky-400"
             >
               <Icon icon="simple-icons:github" width="20" height="20" />
             </a>
@@ -60,7 +60,7 @@ function scrollToTop() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              class="text-neutral-400 transition-colors hover:text-sky-700"
+              class="text-neutral-400 transition-colors hover:text-sky-700 dark:text-neutral-500 dark:hover:text-sky-400"
             >
               <Icon icon="simple-icons:linkedin" width="20" height="20" />
             </a>
@@ -69,7 +69,7 @@ function scrollToTop() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
-              class="text-neutral-400 transition-colors hover:text-sky-700"
+              class="text-neutral-400 transition-colors hover:text-sky-700 dark:text-neutral-500 dark:hover:text-sky-400"
             >
               <Icon icon="simple-icons:instagram" width="20" height="20" />
             </a>
@@ -78,12 +78,12 @@ function scrollToTop() {
 
         <!-- Quick links -->
         <div>
-          <h4 class="text-sm font-semibold tracking-wide text-neutral-800 uppercase">Navigasi</h4>
+          <h4 class="text-sm font-semibold tracking-wide text-neutral-800 uppercase dark:text-neutral-200">Navigasi</h4>
           <ul class="mt-4 space-y-3">
             <li>
               <RouterLink
                 to="/projects"
-                class="text-sm text-neutral-500 transition-colors hover:text-sky-700"
+                class="text-sm text-neutral-500 transition-colors hover:text-sky-700 dark:text-neutral-400 dark:hover:text-sky-400"
               >
                 Projects
               </RouterLink>
@@ -91,7 +91,7 @@ function scrollToTop() {
             <li>
               <RouterLink
                 to="/blogs"
-                class="text-sm text-neutral-500 transition-colors hover:text-sky-700"
+                class="text-sm text-neutral-500 transition-colors hover:text-sky-700 dark:text-neutral-400 dark:hover:text-sky-400"
               >
                 Blogs
               </RouterLink>
@@ -99,7 +99,7 @@ function scrollToTop() {
             <li>
               <RouterLink
                 to="/experiences"
-                class="text-sm text-neutral-500 transition-colors hover:text-sky-700"
+                class="text-sm text-neutral-500 transition-colors hover:text-sky-700 dark:text-neutral-400 dark:hover:text-sky-400"
               >
                 Experiences
               </RouterLink>
@@ -107,7 +107,7 @@ function scrollToTop() {
             <li>
               <RouterLink
                 to="/contact"
-                class="text-sm text-neutral-500 transition-colors hover:text-sky-700"
+                class="text-sm text-neutral-500 transition-colors hover:text-sky-700 dark:text-neutral-400 dark:hover:text-sky-400"
               >
                 Contact
               </RouterLink>
@@ -117,12 +117,12 @@ function scrollToTop() {
 
         <!-- Contact -->
         <div>
-          <h4 class="text-sm font-semibold tracking-wide text-neutral-800 uppercase">Terhubung</h4>
+          <h4 class="text-sm font-semibold tracking-wide text-neutral-800 uppercase dark:text-neutral-200">Terhubung</h4>
           <ul class="mt-4 space-y-3">
             <li>
               <a
                 href="mailto:ditya0528@gmail.com"
-                class="text-sm text-neutral-500 transition-colors hover:text-sky-700"
+                class="text-sm text-neutral-500 transition-colors hover:text-sky-700 dark:text-neutral-400 dark:hover:text-sky-400"
               >
                 ditya0528@gmail.com
               </a>
@@ -132,7 +132,7 @@ function scrollToTop() {
                 href="https://github.com/artesia0528"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-sm text-neutral-500 transition-colors hover:text-sky-700"
+                class="text-sm text-neutral-500 transition-colors hover:text-sky-700 dark:text-neutral-400 dark:hover:text-sky-400"
               >
                 github.com/artesia0528
               </a>
@@ -142,7 +142,7 @@ function scrollToTop() {
                 href="https://linkedin.com/in/i-komang-krisna-aditya-kusuma"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-sm text-neutral-500 transition-colors hover:text-sky-700"
+                class="text-sm text-neutral-500 transition-colors hover:text-sky-700 dark:text-neutral-400 dark:hover:text-sky-400"
               >
                 LinkedIn
               </a>
@@ -152,18 +152,18 @@ function scrollToTop() {
       </div>
 
       <!-- Divider -->
-      <div class="mt-12 border-t border-neutral-200 pt-6">
+      <div class="mt-12 border-t border-neutral-200 pt-6 dark:border-neutral-800">
         <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p class="text-center text-sm text-neutral-500 sm:text-left">
+          <p class="text-center text-sm text-neutral-500 sm:text-left dark:text-neutral-400">
             © {{ year }} I Komang Krisna Aditya Kusuma. All rights reserved.
           </p>
 
           <div class="flex items-center gap-5">
-            <p class="text-xs text-neutral-400">Built with love</p>
+            <p class="text-xs text-neutral-400 dark:text-neutral-500">Built with love</p>
             <button
               type="button"
               aria-label="Kembali ke atas"
-              class="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 text-neutral-500 transition-colors hover:border-sky-700 hover:text-sky-700"
+              class="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 text-neutral-500 transition-colors hover:border-sky-700 hover:text-sky-700 dark:border-neutral-700 dark:text-neutral-400 dark:hover:border-sky-400 dark:hover:text-sky-400"
               @click="scrollToTop"
             >
               <ArrowUp :size="16" />

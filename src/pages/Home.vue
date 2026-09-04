@@ -59,7 +59,7 @@ onMounted(() => void run())
         height="192"
         fetchpriority="high"
         loading="eager"
-        class="h-40 w-40 shrink-0 rounded-full object-cover ring-4 ring-neutral-200 sm:h-48 sm:w-48 md:h-56 md:w-56"
+        class="h-40 w-40 shrink-0 rounded-full object-cover ring-4 ring-neutral-200 sm:h-48 sm:w-48 md:h-56 md:w-56 dark:ring-neutral-800"
         :initial="prefersReduced ? false : { opacity: 0, scale: 0.5, rotate: -10 }"
         :animate="{ opacity: 1, scale: 1, rotate: 0 }"
         :transition="springTransition"
@@ -73,12 +73,12 @@ onMounted(() => void run())
         <p class="text-sm font-semibold tracking-widest text-sky-700 uppercase">
           Software Developer
         </p>
-        <h1 class="mt-3 text-4xl leading-tight font-bold text-neutral-900 sm:text-5xl md:text-6xl">
+        <h1 class="mt-3 text-4xl leading-tight font-bold text-neutral-900 sm:text-5xl md:text-6xl dark:text-neutral-100">
           I Komang Krisna
           <span class="block text-sky-700">Aditya Kusuma</span>
         </h1>
         <p
-          class="mx-auto mt-5 max-w-lg text-base leading-relaxed text-neutral-500 sm:text-lg md:mx-0"
+          class="mx-auto mt-5 max-w-lg text-base leading-relaxed text-neutral-500 sm:text-lg md:mx-0 dark:text-neutral-400"
         >
           Saya membangun aplikasi web modern, fungsional, dan mudah digunakan dengan fokus pada
           pengalaman pengguna yang baik.
@@ -98,13 +98,13 @@ onMounted(() => void run())
           </RouterLink>
           <RouterLink
             to="/contact"
-            class="text-sm font-medium text-neutral-600 underline-offset-4 transition-colors hover:text-neutral-900 hover:underline focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none"
+            class="text-sm font-medium text-neutral-600 underline-offset-4 transition-colors hover:text-neutral-900 hover:underline focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none dark:text-neutral-400 dark:hover:text-neutral-100"
           >
             Hubungi Saya
           </RouterLink>
           <a
             href="https://krisnaaditya.my.id/files/CV_IKKAK.pdf"
-            class="text-sm font-medium text-neutral-600 underline-offset-4 transition-colors hover:text-neutral-900 hover:underline focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none"
+            class="text-sm font-medium text-neutral-600 underline-offset-4 transition-colors hover:text-neutral-900 hover:underline focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none dark:text-neutral-400 dark:hover:text-neutral-100"
             target="_blank"
             rel="noopener noreferrer"
             download
@@ -123,7 +123,7 @@ onMounted(() => void run())
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            class="text-neutral-400 transition-colors hover:text-neutral-900 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none"
+            class="text-neutral-400 transition-colors hover:text-neutral-900 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none dark:text-neutral-500 dark:hover:text-neutral-100"
           >
             <Icon icon="simple-icons:github" width="24" height="24" color="currentColor" />
           </a>
@@ -132,14 +132,14 @@ onMounted(() => void run())
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
-            class="text-neutral-400 transition-colors hover:text-blue-800 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none"
+            class="text-neutral-400 transition-colors hover:text-blue-800 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none dark:text-neutral-500 dark:hover:text-blue-400"
           >
             <Icon icon="simple-icons:linkedin" width="24" height="24" color="currentColor" />
           </a>
           <a
             href="mailto:ditya0528@gmail.com"
             aria-label="Email"
-            class="text-neutral-400 transition-colors hover:text-blue-800 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none"
+            class="text-neutral-400 transition-colors hover:text-blue-800 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none dark:text-neutral-500 dark:hover:text-blue-400"
           >
             <!-- Switched from @lucide/vue Mail to iconify so all hero icons
                  share one icon set's stroke weight and visual style. -->
@@ -156,7 +156,7 @@ onMounted(() => void run())
         v-if="!prefersReduced"
         type="button"
         aria-label="Scroll ke bagian tentang saya"
-        class="absolute bottom-8 left-1/2 hidden -translate-x-1/2 animate-bounce text-neutral-300 transition-colors hover:text-neutral-500 focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none md:block"
+        class="absolute bottom-8 left-1/2 hidden -translate-x-1/2 animate-bounce text-neutral-300 transition-colors hover:text-neutral-500 focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none md:block dark:text-neutral-600 dark:hover:text-neutral-400"
         :initial="{ opacity: 0 }"
         :animate="{ opacity: 1 }"
         :transition="{ delay: 1, duration: 1 }"
@@ -179,13 +179,13 @@ onMounted(() => void run())
     <!-- id="about" added as the scroll cue's target -->
     <motion.section
       id="about"
-      class="flex min-h-[85dvh] scroll-mt-16 flex-col justify-center border-t border-neutral-200 py-20"
+      class="flex min-h-[85dvh] scroll-mt-16 flex-col justify-center border-t border-neutral-200 py-20 dark:border-neutral-800"
       v-bind="fadeUpSection"
     >
       <div class="h-1 w-16 rounded bg-sky-600"></div>
-      <p class="mt-4 text-sm font-semibold tracking-widest text-neutral-400 uppercase">Profil</p>
-      <h2 class="mt-2 text-2xl font-bold text-neutral-900 sm:text-3xl">Tentang Saya</h2>
-      <p class="mt-5 max-w-3xl text-base leading-relaxed text-neutral-500 sm:text-lg">
+      <p class="mt-4 text-sm font-semibold tracking-widest text-neutral-400 uppercase dark:text-neutral-500">Profil</p>
+      <h2 class="mt-2 text-2xl font-bold text-neutral-900 sm:text-3xl dark:text-neutral-100">Tentang Saya</h2>
+      <p class="mt-5 max-w-3xl text-base leading-relaxed text-neutral-500 sm:text-lg dark:text-neutral-400">
         Saya adalah seorang developer yang senang mengubah ide menjadi produk digital yang nyata.
         Dengan pengalaman membangun aplikasi web dari front-end hingga integrasi API, saya selalu
         berusaha menulis kode yang bersih, terstruktur, dan mudah dikembangkan lebih lanjut.
@@ -205,26 +205,26 @@ onMounted(() => void run())
           ]"
           :key="stat.label"
           v-bind="staggerItem"
-          class="rounded-xl border border-neutral-200 p-6 text-center transition-colors hover:border-sky-200 hover:bg-sky-50/50"
+          class="rounded-xl border border-neutral-200 p-6 text-center transition-colors hover:border-sky-200 hover:bg-sky-50/50 dark:border-neutral-800 dark:hover:border-sky-800 dark:hover:bg-sky-900/20"
         >
-          <p class="text-3xl font-bold text-neutral-900 sm:text-4xl">{{ stat.value }}</p>
-          <p class="mt-2 text-xs text-neutral-500 sm:text-sm">{{ stat.label }}</p>
+          <p class="text-3xl font-bold text-neutral-900 sm:text-4xl dark:text-neutral-100">{{ stat.value }}</p>
+          <p class="mt-2 text-xs text-neutral-500 sm:text-sm dark:text-neutral-400">{{ stat.label }}</p>
         </motion.div>
       </motion.div>
     </motion.section>
 
     <!-- Tech Stack Section -->
     <motion.section
-      class="flex min-h-[75dvh] flex-col justify-center border-t border-neutral-200 py-20"
+      class="flex min-h-[75dvh] flex-col justify-center border-t border-neutral-200 py-20 dark:border-neutral-800"
       v-bind="fadeUpSection"
     >
       <div class="h-1 w-16 rounded bg-sky-600"></div>
-      <p class="mt-4 text-sm font-semibold tracking-widest text-neutral-400 uppercase">Keahlian</p>
-      <h2 class="mt-2 text-2xl font-bold text-neutral-900 sm:text-3xl">Tech Stack</h2>
+      <p class="mt-4 text-sm font-semibold tracking-widest text-neutral-400 uppercase dark:text-neutral-500">Keahlian</p>
+      <h2 class="mt-2 text-2xl font-bold text-neutral-900 sm:text-3xl dark:text-neutral-100">Tech Stack</h2>
 
-      <div class="mt-10 grid gap-10 sm:grid-cols-3 sm:divide-x sm:divide-neutral-200">
+      <div class="mt-10 grid gap-10 sm:grid-cols-3 sm:divide-x sm:divide-neutral-200 dark:sm:divide-neutral-800">
         <div v-for="(items, cat) in techStack" :key="cat" class="sm:pl-8 sm:first:pl-0">
-          <h3 class="text-sm font-semibold tracking-wide text-neutral-700 uppercase">{{ cat }}</h3>
+          <h3 class="text-sm font-semibold tracking-wide text-neutral-700 uppercase dark:text-neutral-300">{{ cat }}</h3>
 
           <!-- Badges stagger in per category, each on its own trigger -->
           <motion.div class="mt-4 flex flex-wrap gap-2" v-bind="staggerContainer(0.04)">
@@ -232,7 +232,7 @@ onMounted(() => void run())
               v-for="tech in items"
               :key="tech"
               v-bind="{ ...staggerItem, ...hoverLiftSubtle }"
-              class="rounded-full border border-neutral-200 bg-neutral-50 px-3.5 py-1.5 text-sm text-neutral-600 transition-colors hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700"
+              class="rounded-full border border-neutral-200 bg-neutral-50 px-3.5 py-1.5 text-sm text-neutral-600 transition-colors hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:border-sky-800 dark:hover:bg-sky-900/30 dark:hover:text-sky-400"
             >
               {{ tech }}
             </motion.span>
@@ -243,25 +243,25 @@ onMounted(() => void run())
 
     <!-- Featured Projects Section -->
     <motion.section
-      class="flex min-h-[85dvh] flex-col justify-center border-t border-neutral-200 py-20"
+      class="flex min-h-[85dvh] flex-col justify-center border-t border-neutral-200 py-20 dark:border-neutral-800"
       v-bind="fadeUpSection"
     >
       <div class="flex items-end justify-between">
         <div>
           <div class="h-1 w-16 rounded bg-sky-600"></div>
-          <p class="mt-4 text-sm font-semibold tracking-widest text-neutral-400 uppercase">Karya</p>
-          <h2 class="mt-2 text-2xl font-bold text-neutral-900 sm:text-3xl">Featured Projects</h2>
+          <p class="mt-4 text-sm font-semibold tracking-widest text-neutral-400 uppercase dark:text-neutral-500">Karya</p>
+          <h2 class="mt-2 text-2xl font-bold text-neutral-900 sm:text-3xl dark:text-neutral-100">Featured Projects</h2>
         </div>
         <RouterLink
           to="/projects"
-          class="text-sm font-medium text-neutral-500 transition-colors hover:text-neutral-900 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none"
+          class="text-sm font-medium text-neutral-500 transition-colors hover:text-neutral-900 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-sky-700 focus-visible:ring-offset-2 focus-visible:outline-none dark:text-neutral-400 dark:hover:text-neutral-100"
         >
           Lihat Semua →
         </RouterLink>
       </div>
 
       <!-- Loading state -->
-      <p v-if="loading" class="mt-16 text-center text-neutral-400">Loading projects…</p>
+      <p v-if="loading" class="mt-16 text-center text-neutral-400 dark:text-neutral-500">Loading projects…</p>
 
       <!-- Error state -->
       <p v-if="error" class="mt-16 text-center text-red-500">{{ error }}</p>
@@ -286,7 +286,7 @@ onMounted(() => void run())
       </motion.div>
 
       <!-- Empty state -->
-      <p v-else-if="!loading && !error" class="mt-16 text-center text-neutral-400">
+      <p v-else-if="!loading && !error" class="mt-16 text-center text-neutral-400 dark:text-neutral-500">
         Belum ada project untuk ditampilkan.
       </p>
     </motion.section>
